@@ -8,7 +8,7 @@ Hanna Jung   / hanna.jung@stonybrook.edu
 Hyunsoo Kim  / hyunsoo.kim@stonybrook.edu
 
 ### Target Users
-
+Students
 
 ### How to solve the problem
 
