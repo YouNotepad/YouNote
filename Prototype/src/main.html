@@ -5,9 +5,12 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <link rel="stylesheet" type="text/css" href="./css/style.css">
         <script src="https://unpkg.com/split.js/dist/split.min.js"></script>
+        
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
         <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
         <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+        
+        
         <title>YouNote</title>
     </head>
 
@@ -50,15 +53,30 @@
                         webkitallowfullscreen="webkitallowfullscreen"
                         frameborder="0"></iframe>
             </div>
+            <!-- <script type="text/javascript" src="./nicEdit.js"></script>
+            <script type="text/javascript">
+                bkLib.onDomLoaded(function() { new nicEditor({fullPanel : true, maxHeight: 900}).panelInstance('mytextarea'); });
+            </script> -->
             <div class="cell b">
-                <div class="input-group">
-                    <div contenteditable="true" data-text="Notepad" style="min-height:50px;" id="txtDiv">
-                    </div>
+                <script src="//cdn.ckeditor.com/4.14.0/standard/ckeditor.js"></script> 
+                      <textarea id="mytextarea" name="mytextarea">
+                        
+                      </textarea>
+                      <script>
+                        CKEDITOR.replace( 'mytextarea' );
+                        CKEDITOR.config.height = '47em';
+                        
+                       
+                        CKEDITOR.config.removePlugins = 'source';
+                        
+                </script>
+             
                   </div>
             </div>
         </section>
         
         <!-- VIDEO MODAL-->
+        
         <div class="modal fade text-dark" id="contactModal">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -91,9 +109,10 @@
 
     
         </script>
-
+         
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+        
     </body>
 </html>

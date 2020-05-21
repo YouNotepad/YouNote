@@ -153,3 +153,11 @@ img{
     padding-left:10px;
     width: 17vh;
 }
+
+textarea {
+    height: 91vh;
+    width: 100%;
+    
+    text-decoration: none;
+   
+}
