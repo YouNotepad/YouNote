@@ -140,6 +140,13 @@ body#home{
 #txtDiv{
     height:91vh;
     width:100%;
+    overflow: scroll;
+    text-decoration: none;
+}
+
+#txtDiv::first-line {
+    font-size: 3rem;
+    background-color: var(--primary-color);
 }
 
 .video-option-container{
