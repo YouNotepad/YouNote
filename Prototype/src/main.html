@@ -76,13 +76,38 @@
                 bkLib.onDomLoaded(function() { new nicEditor({fullPanel : true, maxHeight: 900}).panelInstance('mytextarea'); });
             </script> -->
             <div class="cell b">
-                <script src="//cdn.ckeditor.com/4.14.0/standard/ckeditor.js"></script> 
+                <!-- <script src="//cdn.ckeditor.com/4.14.0/standard/ckeditor.js"></script>  -->
+                <script src="./ckeditor/ckeditor.js"></script>
                       <textarea id="mytextarea" name="mytextarea">
                         
                       </textarea>
                       <script>
-                        CKEDITOR.replace( 'mytextarea' );
+                        CKEDITOR.replace( 'mytextarea' ), {
+                        
+                            
+                            codeSnippetGeshi_url: '../lib/colorize.php',
+                            
+
+                        };
                         CKEDITOR.config.height = '47em';
+
+                        CKEDITOR.config.extraPlugins = 'codesnippet';
+                        CKEDITOR.config.extraPlugins = 'ajax';
+                        //CKEDITOR.config.extraPlugins = 'xml';
+                        CKEDITOR.config.extraPlugins = 'codesnippetgeshi';
+                        //CKEDITOR.config.codeSnippet_theme = 'pojoaque';
+                        CKEDITOR.config.codeSnippet_languages = {
+                                javascript: 'JavaScript',
+                                java: 'Java',
+                                c: 'C',
+                                
+                                html: 'HTML',
+                                html5: 'HTML5',
+                                mysql: 'MySQL',
+                                python: 'PYTHON',
+
+                                php: 'PHP'
+                            };
                         
                        
                         CKEDITOR.config.removePlugins = 'source';

@@ -156,16 +156,7 @@ img{
     width: 17vh;
 }
 
-<<<<<<< HEAD
-textarea {
-    height: 91vh;
-    width: 100%;
-    
-    text-decoration: none;
-   
-=======
 pre {
     white-space: pre-wrap;
     overflow: auto;
->>>>>>> 32dcf85debf879868eb92c395e9320a234cf181b
 }
