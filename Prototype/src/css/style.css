@@ -140,6 +140,8 @@ body#home{
 #txtDiv{
     height:91vh;
     width:100%;
+    overflow: scroll;
+    text-decoration: none;
 }
 
 .video-option-container{
@@ -152,4 +154,9 @@ img{
     height: 10vh;
     padding-left:10px;
     width: 17vh;
+}
+
+pre {
+    white-space: pre-wrap;
+    overflow: auto;
 }
