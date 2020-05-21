@@ -20,7 +20,7 @@ class App extends Component {
   console.log("App constructor");
   
   this.state = {
-    currentScreen: AppScreen.HOME_SCREEN,
+    currentScreen: AppScreen.NOTE_SCREEN,
     
   }
  

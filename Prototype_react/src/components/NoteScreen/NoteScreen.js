@@ -33,7 +33,7 @@ componentDidMount = () =>{
         ['outdent', 'indent'],
         ['align', 'horizontalRule', 'list', 'lineHeight'],
         ['table', 'link', 'image', 'video', 'audio' /** ,'math' */], // You must add the 'katex' library at options to use the 'math' plugin.
-        ['fullScreen', 'showBlocks', 'codeView'],
+        ['fullScreen', 'showBlocks'],
         ['preview', 'print'],
         ['save', 'template']
     ]
