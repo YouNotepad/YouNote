@@ -5,14 +5,18 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <link rel="stylesheet" type="text/css" href="./css/style.css">
         <script src="https://unpkg.com/split.js/dist/split.min.js"></script>
+        
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
         <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
   
-        
         <title>YouNote</title>
     </head>
 
     <body id="home">
+        <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/highlight.min.js"></script>
+        <script>hljs.initHighlightingOnLoad();</script>
+
+
         <nav class="navbar navbar-expand-sm bg-dark navbar-dark fixed-top">
             <div class="container">
                 <a href="index.html" class="navbar-brand">YouNote</a>
@@ -55,10 +59,49 @@
                         frameborder="0"></iframe>
 
             </div>
+            <!-- <script type="text/javascript" src="./nicEdit.js"></script>
+            <script type="text/javascript">
+                bkLib.onDomLoaded(function() { new nicEditor({fullPanel : true, maxHeight: 900}).panelInstance('mytextarea'); });
+            </script> -->
             <div class="cell b">
-                <div class="input-group">
-                    <div contenteditable="true" spellcheck="false" data-text="Notepad" style="min-height:50px;" id="txtDiv">
-                    </div>
+                <!-- <script src="//cdn.ckeditor.com/4.14.0/standard/ckeditor.js"></script>  -->
+                <script src="./ckeditor/ckeditor.js"></script>
+                      <textarea id="mytextarea" name="mytextarea">
+                        
+                      </textarea>
+                      <script>
+                        CKEDITOR.replace( 'mytextarea' ), {
+                        
+                            
+                            codeSnippetGeshi_url: '../lib/colorize.php',
+                            
+
+                        };
+                        CKEDITOR.config.height = '47em';
+
+                        CKEDITOR.config.extraPlugins = 'codesnippet';
+                        CKEDITOR.config.extraPlugins = 'ajax';
+                        //CKEDITOR.config.extraPlugins = 'xml';
+                        CKEDITOR.config.extraPlugins = 'codesnippetgeshi';
+                        //CKEDITOR.config.codeSnippet_theme = 'pojoaque';
+                        CKEDITOR.config.codeSnippet_languages = {
+                                javascript: 'JavaScript',
+                                java: 'Java',
+                                c: 'C',
+                                
+                                html: 'HTML',
+                                html5: 'HTML5',
+                                mysql: 'MySQL',
+                                python: 'PYTHON',
+
+                                php: 'PHP'
+                            };
+                        
+                       
+                        CKEDITOR.config.removePlugins = 'source';
+                        
+                </script>
+             
                   </div>
             </div>
         </section>
@@ -86,6 +129,54 @@
 
     
         </script>
+        <script>
+            function addRow () {
+                
+                var h = document.getElementsByClassName("cke_editable cle_editable_themed cke_contents_ltr cke_show_borders");
+                h.insertAdjacentHTML("beforeend", '<pre> <code class="plaintext hljs"> Place your code here </code> </pre>');
+            }
+        </script>
+
+        <!-- <script>
+            function insertAtCaret(areaId, text) {
+                var txtarea = document.getElementById(areaId);
+                if (!txtarea) {
+                    return;
+                }
+
+                var scrollPos = txtarea.scrollTop;
+                var strPos = 0;
+                var br = ((txtarea.selectionStart || txtarea.selectionStart == '0') ?
+                    "ff" : (document.selection ? "ie" : false));
+                if (br == "ie") {
+                    txtarea.focus();
+                    var range = document.selection.createRange();
+                    range.moveStart('character', -txtarea.value.length);
+                    strPos = range.text.length;
+                } else if (br == "ff") {
+                    strPos = txtarea.selectionStart;
+                }
+
+                var front = (txtarea.value).substring(0, strPos);
+                var back = (txtarea.value).substring(strPos, txtarea.value.length);
+                txtarea.value = front + text + back;
+                strPos = strPos + text.length;
+                if (br == "ie") {
+                    txtarea.focus();
+                    var ieRange = document.selection.createRange();
+                    ieRange.moveStart('character', -txtarea.value.length);
+                    ieRange.moveStart('character', strPos);
+                    ieRange.moveEnd('character', 0);
+                    ieRange.select();
+                } else if (br == "ff") {
+                    txtarea.selectionStart = strPos;
+                    txtarea.selectionEnd = strPos;
+                    txtarea.focus();
+                }
+
+            txtarea.scrollTop = scrollPos;
+            }
+        </script> -->
 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
