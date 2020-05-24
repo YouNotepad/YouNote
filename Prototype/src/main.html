@@ -16,7 +16,7 @@
         <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/highlight.min.js"></script>
         <script>hljs.initHighlightingOnLoad();</script>
 
-
+        
         <nav class="navbar navbar-expand-sm bg-dark navbar-dark fixed-top">
             <div class="container">
                 <a href="index.html" class="navbar-brand">YouNote</a>
@@ -29,7 +29,7 @@
                             <a href="#home" class="nav-link"><i class="far fa-folder-open"></i> Open Note</a>
                         </li>
                         <li class="nav-item">
-                            <a href="#explore-head-section" class="nav-link"><i class="far fa-save"></i> Save Note</a>
+                            <a href="#explore-head-section" class="nav-link" onclick="saveHandle()"><i class="far fa-save"></i> Save Note</a>
                         </li>
                         <li class="nav-item">
                             <a href="#videoListsModal" id="videoLists" data-toggle="modal" data-target="#videoListsModal" class="nav-link"> <i class="fas fa-video"></i> Change Video</a>
@@ -69,6 +69,7 @@
                       <textarea id="mytextarea" name="mytextarea">
                         
                       </textarea>
+<<<<<<< HEAD
                       <script>
                         CKEDITOR.replace( 'mytextarea' ), {
                         
@@ -94,11 +95,9 @@
                                 python: 'PYTHON',
                                 php: 'PHP'
                             };
+=======
+>>>>>>> 4f8f143540a38e6a7a11d82d276e91aad48253e2
                         
-                       
-                        CKEDITOR.config.removePlugins = 'source';
-                        
-                </script>
              
                   </div>
             </div>
@@ -120,19 +119,68 @@
         </div>
 
         <script>
+
+            //var hey = documetn.getElementsById("mytextarea");
+            //hey.innerHTML = "<p>This is test</p>"
+
             Split(['.a','.b'],{
                 gutterSize:5,
                 sizes:[50,50],
                 minSize:[200,200]
             });
 
-    
-        </script>
-        <script>
-            function addRow () {
+          
+                        var editor = CKEDITOR.replace( 'mytextarea' );
+                        // , {
+                        
+                            
+                        //     //codeSnippetGeshi_url: '../lib/colorize.php',
+                            
+
+                        // };
+                        CKEDITOR.config.height = '80vh';
+
+                        CKEDITOR.config.extraPlugins = 'codesnippet';
+                        //CKEDITOR.config.extraPlugins = 'ajax';
+                        //CKEDITOR.config.extraPlugins = 'xml';
+                        //CKEDITOR.config.extraPlugins = 'codesnippetgeshi';
+                        //CKEDITOR.config.codeSnippet_theme = 'pojoaque';
+                        CKEDITOR.config.codeSnippet_languages = {
+                                javascript: 'JavaScript',
+                                java: 'Java',
+                                c: 'C',
+                                
+                                html: 'HTML',
+                                html5: 'HTML5',
+                                mysql: 'MySQL',
+                                python: 'PYTHON',
+
+                                php: 'PHP'
+                            };
+                        
+                       
+                        CKEDITOR.config.removePlugins = 'source';
+
+                        var data = CKEDITOR.instances.mytextarea.getData();
+                
+                editor.on( 'change', function( evt ) {
+                    // getData() returns CKEditor's HTML content.
+                    //console.log( 'Total bytes: ' + evt.editor.getData() );
+                    console.log("something typed");
+                });
+                function saveHandle(){
+                    console.log("save clicked");
+                    var data = CKEDITOR.instances.mytextarea.getData();
+                    console.log("data: " + data);
+                }
+
+               function addRow () {
                 
                 var h = document.getElementsByClassName("cke_editable cle_editable_themed cke_contents_ltr cke_show_borders");
                 h.insertAdjacentHTML("beforeend", '<pre> <code class="plaintext hljs"> Place your code here </code> </pre>');
+
+                
+
             }
         </script>
 
