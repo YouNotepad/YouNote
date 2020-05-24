@@ -16,7 +16,7 @@
         <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/highlight.min.js"></script>
         <script>hljs.initHighlightingOnLoad();</script>
 
-
+        
         <nav class="navbar navbar-expand-sm bg-dark navbar-dark fixed-top">
             <div class="container">
                 <a href="index.html" class="navbar-brand">YouNote</a>
@@ -29,7 +29,7 @@
                             <a href="#home" class="nav-link"><i class="far fa-folder-open"></i> Open Note</a>
                         </li>
                         <li class="nav-item">
-                            <a href="#explore-head-section" class="nav-link"><i class="far fa-save"></i> Save Note</a>
+                            <a href="#explore-head-section" class="nav-link" onclick="saveHandle()"><i class="far fa-save"></i> Save Note</a>
                         </li>
                         <li class="nav-item">
                             <a href="#videoListsModal" id="videoLists" data-toggle="modal" data-target="#videoListsModal" class="nav-link"><i class="fas fa-list-alt"></i> Video Lists</a>
@@ -69,15 +69,47 @@
                       <textarea id="mytextarea" name="mytextarea">
                         
                       </textarea>
-                      <script>
-                        CKEDITOR.replace( 'mytextarea' ), {
+                        
+             
+                  </div>
+            </div>
+        </section>
+        
+        <!-- VIDEO MODAL-->
+        <div class="modal fade text-dark" id="videoListsModal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <h1 class="display-8 text-center p-3"><strong>YouNote</strong></h1>
+                    <div class="modal-videoURLs"></div>
+                    <div class="modal-footer">
+                        <button class="btn btn-primary btn-block">Submit</button>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+
+        <script>
+
+            //var hey = documetn.getElementsById("mytextarea");
+            //hey.innerHTML = "<p>This is test</p>"
+
+            Split(['.a','.b'],{
+                gutterSize:5,
+                sizes:[50,50],
+                minSize:[200,200]
+            });
+
+          
+                        var editor = CKEDITOR.replace( 'mytextarea' );
+                        // , {
                         
                             
-                            //codeSnippetGeshi_url: '../lib/colorize.php',
+                        //     //codeSnippetGeshi_url: '../lib/colorize.php',
                             
 
-                        };
-                        CKEDITOR.config.height = '47em';
+                        // };
+                        CKEDITOR.config.height = '80vh';
 
                         CKEDITOR.config.extraPlugins = 'codesnippet';
                         //CKEDITOR.config.extraPlugins = 'ajax';
@@ -99,41 +131,27 @@
                         
                        
                         CKEDITOR.config.removePlugins = 'source';
-                        
-                </script>
-             
-                  </div>
-            </div>
-        </section>
-        
-        <!-- VIDEO MODAL-->
-        <div class="modal fade text-dark" id="videoListsModal">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <h1 class="display-8 text-center p-3"><strong>YouNote</strong></h1>
-                    <div class="modal-videoURLs"></div>
-                    <div class="modal-footer">
-                        <button class="btn btn-primary btn-block">Submit</button>
-                    </div>
-                </div>
+
+                        var data = CKEDITOR.instances.mytextarea.getData();
                 
-            </div>
-        </div>
+                editor.on( 'change', function( evt ) {
+                    // getData() returns CKEditor's HTML content.
+                    //console.log( 'Total bytes: ' + evt.editor.getData() );
+                    console.log("something typed");
+                });
+                function saveHandle(){
+                    console.log("save clicked");
+                    var data = CKEDITOR.instances.mytextarea.getData();
+                    console.log("data: " + data);
+                }
 
-        <script>
-            Split(['.a','.b'],{
-                gutterSize:5,
-                sizes:[50,50],
-                minSize:[200,200]
-            });
-
-    
-        </script>
-        <script>
-            function addRow () {
+               function addRow () {
                 
                 var h = document.getElementsByClassName("cke_editable cle_editable_themed cke_contents_ltr cke_show_borders");
                 h.insertAdjacentHTML("beforeend", '<pre> <code class="plaintext hljs"> Place your code here </code> </pre>');
+
+                
+
             }
         </script>
 
