@@ -5,15 +5,10 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <link rel="stylesheet" type="text/css" href="./css/style.css">
         <script src="https://unpkg.com/split.js/dist/split.min.js"></script>
+        
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
         <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
-        <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
-        <link href="css/demo.css" rel="stylesheet">
-        <link href="css/chrome-tabs.css" rel="stylesheet">
-        <link href="css/chrome-tabs-dark-theme.css" rel="stylesheet">
-        <link rel="stylesheet"
-              href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/styles/monokai.min.css">
-        
+  
         <title>YouNote</title>
     </head>
 
@@ -37,19 +32,13 @@
                             <a href="#explore-head-section" class="nav-link"><i class="far fa-save"></i> Save Note</a>
                         </li>
                         <li class="nav-item">
-                            <a href="#create-head-section" class="nav-link" onclick="addRow()"><i class="fas fa-code"></i> Code Block
-                                <!-- <select name="code" id="code" onchange="addRow()">
-                                    <option id="javascript">javascript</option>
-                                    <option id="python">python</option>
-                                    <option id="java">java</option>
-                                    <option id="css">css</option>
-                                    <option id="css">java</option>
-                                    <option id="c">c</option>
-                                    <option id="markdown">markdown</option>
-                                  </select></a> -->
+                            <a href="#videoListsModal" id="videoLists" data-toggle="modal" data-target="#videoListsModal" class="nav-link"><i class="fas fa-list-alt"></i> Video Lists</a>
                         </li>
                         <li class="nav-item">
-                            <a href="#contactModal" data-toggle="modal" data-target="#contactModal" class="nav-link"><i class="fab fa-youtube"></i> <i class="fas fa-arrow-right"></i> <i class="fas fa-tv"></i> Resize</a>
+                            <a href="#create-head-section" class="nav-link"><i class="fas fa-code"></i> Code Block</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#"  class="nav-link"><i class="fab fa-youtube"></i> <i class="fas fa-arrow-right"></i> <i class="fas fa-tv"></i> Resize</a>
                         </li>
                     </ul>
                 </div>
@@ -61,7 +50,7 @@
         <section class="content">
             <div class="cell a">
                 <iframe id="ytplayer" type="text/html"  
-                        src="https://www.youtube.com/embed/M7lc1UVf-VE?autoplay=1&origin=http://example.com"
+                        src="http://www.example.com/"
                         allowfullscreen="allowfullscreen"
                         mozallowfullscreen="mozallowfullscreen" 
                         msallowfullscreen="msallowfullscreen" 
@@ -70,40 +59,64 @@
                         frameborder="0"></iframe>
 
             </div>
+            <!-- <script type="text/javascript" src="./nicEdit.js"></script>
+            <script type="text/javascript">
+                bkLib.onDomLoaded(function() { new nicEditor({fullPanel : true, maxHeight: 900}).panelInstance('mytextarea'); });
+            </script> -->
             <div class="cell b">
-                <div class="input-group">
-                    <div contenteditable="true" spellcheck="false" data-text="Notepad" style="min-height:50px;" id="txtDiv">
-                        <!-- <pre>
-                            <code class="python">
-                                printf("hello world");
-                            </code>
-                        </pre> -->
-                    </div>
+                <!-- <script src="//cdn.ckeditor.com/4.14.0/standard/ckeditor.js"></script>  -->
+                <script src="./ckeditor/ckeditor.js"></script>
+                      <textarea id="mytextarea" name="mytextarea">
+                        
+                      </textarea>
+                      <script>
+                        CKEDITOR.replace( 'mytextarea' ), {
+                        
+                            
+                            codeSnippetGeshi_url: '../lib/colorize.php',
+                            
+
+                        };
+                        CKEDITOR.config.height = '47em';
+
+                        CKEDITOR.config.extraPlugins = 'codesnippet';
+                        //CKEDITOR.config.extraPlugins = 'ajax';
+                        //CKEDITOR.config.extraPlugins = 'xml';
+                        //CKEDITOR.config.extraPlugins = 'codesnippetgeshi';
+                        //CKEDITOR.config.codeSnippet_theme = 'pojoaque';
+                        CKEDITOR.config.codeSnippet_languages = {
+                                javascript: 'JavaScript',
+                                java: 'Java',
+                                c: 'C',
+                                
+                                html: 'HTML',
+                                html5: 'HTML5',
+                                mysql: 'MySQL',
+                                python: 'PYTHON',
+
+                                php: 'PHP'
+                            };
+                        
+                       
+                        CKEDITOR.config.removePlugins = 'source';
+                        
+                </script>
+             
                   </div>
             </div>
         </section>
         
         <!-- VIDEO MODAL-->
-        <div class="modal fade text-dark" id="contactModal">
+        <div class="modal fade text-dark" id="videoListsModal">
             <div class="modal-dialog">
                 <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="contactModalTitle">
-                            Video Window Options
-                        </h5>
-                    </div>
-                    <div class="modal-body">
-                        <div class="video-option-container">
-                            <a href="./index.html" class="item"><img src="./img/video-resize1.png" alt="video-resize1"></a>
-                            <a href="#" class="item"><img src="./img/video-resize2.png" alt="video-resize2"></a>
-                            <a href="#" class="item"><img src="./img/video-resize3.png" alt="video-resize3"></a>
-                            <a href="#" class="item"><img src="./img/video-resize4.png" alt="video-resize4"></a>
-                        </div>
-                    </div>
+                    <h1 class="display-8 text-center p-3"><strong>YouNote</strong></h1>
+                    <div class="modal-videoURLs"></div>
                     <div class="modal-footer">
                         <button class="btn btn-primary btn-block">Submit</button>
                     </div>
                 </div>
+                
             </div>
         </div>
 
@@ -111,7 +124,7 @@
             Split(['.a','.b'],{
                 gutterSize:5,
                 sizes:[50,50],
-                minSize:[0,0]
+                minSize:[200,200]
             });
 
     
@@ -119,7 +132,7 @@
         <script>
             function addRow () {
                 
-                var h = document.getElementById("txtDiv");
+                var h = document.getElementsByClassName("cke_editable cle_editable_themed cke_contents_ltr cke_show_borders");
                 h.insertAdjacentHTML("beforeend", '<pre> <code class="plaintext hljs"> Place your code here </code> </pre>');
             }
         </script>
@@ -168,6 +181,7 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
-        
+        <script src="./js/main.js"></script>
+       
     </body>
 </html>
