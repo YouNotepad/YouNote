@@ -149,19 +149,21 @@ body#home{
     text-decoration: none;
 }
 
-<<<<<<< HEAD
-#txtDiv::first-line {
-    font-size: 3rem;
-    background-color: var(--primary-color);
-}
-
-.video-list-container{
-=======
 .video-option-container{
->>>>>>> df640e589cc2459c757d483897e6869f64a45dd4
+    height: 91vh;
+    overflow:scroll;
     display: flex;
     flex-direction: row;
     justify-content: space-evenly;
+}
+
+
+.fa{
+    color: var(--primary-color);
+    background-color: #fff;
+    padding: 4px;
+    border-radius: 5px;
+    font-size: var(--icon-size);
 }
 
 img{
