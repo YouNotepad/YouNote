@@ -41,28 +41,32 @@ componentDidMount = () =>{
 
 }
 
+handleGoHome = () =>{
+    this.props.goToHomeCallback();
+}
+
 
   render(){ 
      return(<div>
-    <nav class="navbar navbar-expand-sm bg-dark navbar-dark fixed-top">
-            <div class="container">
-                <a href="index.html" class="navbar-brand">YouNote</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse">
-                    <span class="navbar-toggler-icon"></span>
+    <nav className="navbar navbar-expand-sm bg-dark navbar-dark fixed-top">
+            <div className="container">
+                <a href="index.html" className="navbar-brand" onClick={this.handleGoHome}>YouNote</a>
+                <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse">
+                    <span className="navbar-toggler-icon"></span>
                 </button>
-                <div class="collapse navbar-collapse" id="navbarCollapse">
-                    <ul class="navbar-nav ml-auto">
-                        <li class="nav-item">
-                            <a href="#home" class="nav-link"><i class="far fa-folder-open"></i> Open Note</a>
+                <div className="collapse navbar-collapse" id="navbarCollapse">
+                    <ul className="navbar-nav ml-auto">
+                        <li className="nav-item">
+                            <a href="#home" className="nav-link"><i className="far fa-folder-open"></i> Open Note</a>
                         </li>
-                        <li class="nav-item">
-                            <a href="#explore-head-section" class="nav-link"><i class="far fa-save"></i> Save Note</a>
+                        <li className="nav-item">
+                            <a href="#explore-head-section" className="nav-link"><i className="far fa-save"></i> Save Note</a>
                         </li>
-                        <li class="nav-item">
-                            <a href="#create-head-section" class="nav-link"><i class="fas fa-code"></i> Code Block</a>
+                        <li className="nav-item">
+                            <a href="#create-head-section" className="nav-link"><i className="fas fa-code"></i> Code Block</a>
                         </li>
-                        <li class="nav-item">
-                            <a href="#contactModal" data-toggle="modal" data-target="#contactModal" class="nav-link"><i class="fab fa-youtube"></i> <i class="fas fa-arrow-right"></i> <i class="fas fa-tv"></i> Resize</a>
+                        <li className="nav-item">
+                            <a href="#contactModal" data-toggle="modal" data-target="#contactModal" className="nav-link"><i className="fab fa-youtube"></i> <i className="fas fa-arrow-right"></i> <i className="fas fa-tv"></i> Resize</a>
                         </li>
                     </ul>
                 </div>
@@ -70,8 +74,8 @@ componentDidMount = () =>{
         </nav>
 
     
-        <section class="content">
-            <div class="cell a">
+        <section className="content">
+            <div className="cell a">
                 <iframe id="ytplayer" type="text/html"  
                         src="https://www.youtube.com/embed/M7lc1UVf-VE?autoplay=1&origin=http://example.com"
                         allowfullscreen="allowfullscreen"
@@ -81,8 +85,8 @@ componentDidMount = () =>{
                         webkitallowfullscreen="webkitallowfullscreen"
                         frameborder="0"></iframe>
             </div>
-            <div class="cell b">
-                <div class="input-group">
+            <div className="cell b">
+                <div className="input-group">
                     <textarea style= {{width: '100%'}} id="sample">Hi hello</textarea>    
                 </div>
                   </div>

@@ -8,7 +8,7 @@ class HomeScreen extends Component {
         console.log("\tHomeScreen constructor");
     }
     handleURLEntered = () => {
-        this.props.addNewURL();
+        this.props.goToNoteCallback();
     }
     render() {
         console.log("\tHomeScreen render");
@@ -40,7 +40,7 @@ class HomeScreen extends Component {
                                                     <input type="text" className="form-control form-control-lg" placeholder="Video URL:"></input>
                                                     
                                                 </div>
-                                                <a href="./main.html" className="btn btn-outline-light btn-block">Go to Video & Notepad</a>
+                                                <a href="./main.html" className="btn btn-outline-light btn-block" onClick={this.handleURLEntered}>Go to Video & Notepad</a>
                                             </form>
                                         </div>
                                     </div>

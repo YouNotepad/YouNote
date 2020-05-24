@@ -30,15 +30,15 @@ class App extends Component {
 }
 
 goToHomeScreen = () => {
- 
+ console.log("goHome")
   this.setState({
-    currentScreen: AppScreen.HOME_SCREEN,
+   currentScreen: AppScreen.HOME_SCREEN,
     
   });
 }
 
 goToNoteScreen = (logo) => {    
- 
+  console.log("goNote")
   this.setState({
     currentScreen: AppScreen.NOTE_SCREEN,
     
@@ -51,11 +51,12 @@ addNewURL = (url) => {
 
 render() {
   console.log("App render");
+  console.log(this.state)
   switch (this.state.currentScreen) {
     case AppScreen.HOME_SCREEN:
       return <HomeScreen
         
-        goToLogoCallback={this.goToNoteScreen}          // WORK ON SELECTED LOGO CALLBACK
+        goToNoteCallback={this.goToNoteScreen}          // WORK ON SELECTED LOGO CALLBACK
       />;
     case AppScreen.NOTE_SCREEN:
       return <NoteScreen
