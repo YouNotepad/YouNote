@@ -2,6 +2,9 @@
 * CSE 323 team project
 * Integration of Youtube video and notepad with user-friendly interface
 
+## Website Link
+https://ericbyeric.github.io/YouNote/
+
 ## team members
 Name | Email
 ---|---|
