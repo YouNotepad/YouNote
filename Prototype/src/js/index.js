@@ -1,4 +1,5 @@
 var embed_video_url = "";
+var videoId = "";
 $(document).ready(function(){
 
     $('#urlBtn').click(function (){
@@ -7,8 +8,8 @@ $(document).ready(function(){
         if(isValidURL){
             $('#urlBtn').prop('href', "main.html");
             //$('#ytplayer').attr('src', embed_video_url);
-            window.localStorage.setItem('initialURL', embed_video_url);
-            
+            window.localStorage.setItem('embedURL', embed_video_url);
+            window.localStorage.setItem('videoId', videoId);
         } else {
             alert("Enter a valid Youtube URL");
         }
@@ -21,6 +22,7 @@ $(document).ready(function(){
             if (match && match[2].length == 11) {
                 // Do anything for being valid
                 // if need to change the url to embed url then use below line
+                videoId = match[2];
                 embed_video_url = 'https://www.youtube.com/embed/' + match[2] + '?autoplay=0';
                 //$('#ytplayerSide').attr('src', 'https://www.youtube.com/embed/' + match[2] + '?autoplay=0');
                 return true;
