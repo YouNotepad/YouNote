@@ -26,11 +26,14 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarCollapse">
                     <ul class="navbar-nav ml-auto">
+                        <li class="nav-item">    
+                            <a href="#newNoteModal" class="nav-link" data-toggle="modal" data-target="#newNoteModal"><i class="far fa-folder-open"></i> New Note</a>
+                        </li>
                         <li class="nav-item">
                             <a href="#openNoteModal" id="opennote" data-toggle="modal" data-target="#openNoteModal" class="nav-link"><i class="far fa-folder-open"></i> Open Note</a>
                         </li>
                         <li class="nav-item">
-                            <a href="#explore-head-section" class="nav-link" onclick="saveHandle()"><i class="far fa-save"></i> Save Note</a>
+                            <a href="#" id="saveNote" class="nav-link" data-toggle="modal" data-target="#saveNoteModal"><i class="far fa-save"></i> Save Note</a>
                         </li>
                         <li class="nav-item">
                             <a href="#watchNewVideoModal" id="watchNewVideo" data-toggle="modal" data-target="#watchNewVideoModal" class="nav-link"> <i class="fas fa-video"></i> Watch New Video</a>
@@ -67,6 +70,57 @@
             </div>
         </section>
         
+
+        <!-- NEW NOTE MODAL-->
+        <div class="modal fade text-dark" id="newNoteModal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <h1 class="display-8 text-center p-3"><strong>New Note</strong></h1>
+                    <div class="modal-videoURLs">
+                        <div id="inputNewUrl" class="d-flex flex-row">
+                            <div class="modal-body">
+                                <form>
+                                  <div class="form-group">
+                                    <label class="col-form-label">This action will clear the NOTE section!</label>
+                                  </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" id="newNoteBtn">Create New Note</button>
+                        <a href="" id="cancel-newNote" type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- SAVE NOTE MODAL-->
+        <div class="modal fade text-dark" id="saveNoteModal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <h1 class="display-8 text-center p-3"><strong>Save Note</strong></h1>
+                    <div class="modal-videoURLs">
+                        <div id="inputNewUrl" class="d-flex flex-row">
+                            <div class="modal-body">
+                                <form>
+                                  <div class="form-group">
+                                    <label class="col-form-label">Enter a title for the note</label>
+                                    <input type="text" class="form-control" id="saveNoteInput" placeholder="Title name is required">
+                                  </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" id="saveNoteBtn">Save Note</button>
+                        <a href="" id="cancel-saveNote" type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
 
         <!-- NEW YOUTUBE VIDEO MODAL-->
 
@@ -121,7 +175,11 @@
 
          <!-- TIMESTAMP MODAL-->
 
+<<<<<<< HEAD
          <div class="modal fade text-dark" id="timestampModal">
+=======
+        <div class="modal fade text-dark" id="timestampModal">
+>>>>>>> f656901710b3099c2a4771bbc4947289edeab0b2
             <div class="modal-dialog modal-dialog-scrollable">
                 <div class="modal-content">
                     <h1 class="display-8 text-center p-3"><strong>Time Stamp</strong></h1>
@@ -145,7 +203,11 @@
      
                 <div class="modal-footer">
                     <button type="button" class="btn btn-primary" id="saveTS" ">Save Timestamp</button>
+<<<<<<< HEAD
                     <a href="" id="cancel-ts" type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</a>
+=======
+                    <a href="" id="cancel-ts" type="button" class="btn btn-secondary" data-dismiss="modal">Close</a>
+>>>>>>> f656901710b3099c2a4771bbc4947289edeab0b2
                 </div>
             </div>
             </div>

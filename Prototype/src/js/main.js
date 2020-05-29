@@ -4,6 +4,8 @@ var noteTitle = "";
 var timestamp = 0;
 var tsList = [];
 var tempTs = [];
+var tsListCount = 0;
+var videoTitle = "";
 
 // YOUTUBE VIDEO INITIALIZATION
 latestURL = window.localStorage.getItem("embedURL");
@@ -35,9 +37,6 @@ function onPlayerReady(event) {
     if (player && player.getCurrentTime) {
       videotime = player.getCurrentTime().toFixed(2);
       document.getElementById("timeurl").innerHTML = videotime;
-    }
-    if (videotime !== oldTime) {
-      
     }
   }
   timeupdater = setInterval(updateTime, 10);
@@ -115,19 +114,21 @@ function openHandle(){
 // setPost();
 
 // function getPosts() {
+// function doseNoteExist() {
 //   database
 //     .collection("user-note")
 //     .get()
 //     .then((snapshot) => {
 //       snapshot.docs.forEach((docs) => {
 //         console.log(docs.data());
+//         // console.log(docs.data());
+//         docs.data().title;
 //       });
 //     })
 //     .catch((err) => {
 //       console.log(err);
 //     });
 // }
-// getPosts();
 
 // function deleteDoc(){
 //     database.collection("posts")
@@ -248,7 +249,7 @@ $(document).ready(function () {
   });
   // TIMESTAMP SAVING
 
-  var tsListCount = 0;
+  
 
   $("#saveTS").click(function () {
     var tsTitleInput = $("#tsTitle").val();
@@ -347,3 +348,80 @@ $(document).ready(function () {
     }
   }
 });
+
+
+  // CREATE NEW NOTE
+
+  $("#newNoteBtn").click(function () {
+    // clear note section
+    CKEDITOR.instances.mytextarea.setData("");
+    // make timestamp list empty
+    tsList = [];
+    while (tsListCount != 0) {
+      $("#tsDiv").prev("#tsLists").remove();
+      tsListCount--;
+    }
+
+    // SAVE NOTE VALIDATE
+    $("#saveNote").click(function () {
+      if (videoTitle != undefined || videoTitle != "") {
+        // Save Note Action with title (Modal required)
+        $("#saveNoteModal").modal("show");
+      } else {
+        // Save Note Action without  title
+        alert("save note");
+      }
+    });
+
+    // SAVE NOTE
+    $("#saveNoteBtn").click(function () {
+      alert("saveNoteBTN");
+      // Title input
+      var title = $("#saveNoteInput").val();
+      database.collection("user-note").doc(title).set({
+        //   author : "hyunsoo",
+        //   createdAt : "2020-05-29",
+        //   postContent: "This is 2nd post",
+        //   postName : "Welcome Again!"
+        title: title,
+        noteContent: CKEDITOR.instances.mytextarea.getData(),
+        latestURL: latestURL,
+        date: new Date(),
+      });
+
+      tsList.map((eachTS) => {
+        database
+          .collection("user-note")
+          .doc(title)
+          .collection("timestamps")
+          .doc(eachTS[1])
+          .set({
+            videoId: eachTS[0],
+            title: eachTS[1],
+            time: eachTS[2],
+            date: eachTS[3],
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      });
+    });
+
+   
+
+    // Open modal for new video URL
+    $("#watchNewVideo").click();
+    $("#cancel-newNote").click();
+  });
+
+  // PREVENT ENTER KEY DOWN
+
+  $('input[type="text"]').keydown(function () {
+    if (event.keyCode === 13) {
+      event.preventDefault();
+    }
+  });
+  
+
+
+ 
