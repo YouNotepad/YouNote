@@ -1,10 +1,11 @@
-var embed_video_url = "";
+var latestURL = "";
 var videoId = "";
-var tsList = {};
+var noteTitle = "";
 var timestamp = 0;
+var tsList = [];
 
 // YOUTUBE VIDEO INITIALIZATION
-
+    latestURL = window.localStorage.getItem('embedURL');
     videoId = window.localStorage.getItem('videoId');
     var tag = document.createElement('script');
 
@@ -58,8 +59,8 @@ var timestamp = 0;
 
 //CKEDITOR PART
 
-    var data;
-    var editor = CKEDITOR.replace( 'mytextarea' );
+    var noteContent;
+    var editor = CKEDITOR.replace('mytextarea');
     CKEDITOR.config.tabSpaces = 4;
     CKEDITOR.config.height = '80vh';
     CKEDITOR.config.removePlugins = 'specialchar,image';
@@ -74,14 +75,15 @@ var timestamp = 0;
     });
     function saveHandle(){
         console.log("save clicked");
-        data = CKEDITOR.instances.mytextarea.getData();
-        window.localStorage.setItem("content", data);
-        console.log("data: " + data);
+        noteContent = CKEDITOR.instances.mytextarea.getData();
+        window.localStorage.setItem("content", noteContent);
+        console.log("noteContent: " + noteContent);
+        
     }
     function openHandle(){
         console.log("open clicked");
         
-        CKEDITOR.instances.mytextarea.insertHtml(data);
+        CKEDITOR.instances.mytextarea.insertHtml(noteContent);
         
     }
             
@@ -100,29 +102,30 @@ var timestamp = 0;
 // }
 // setPost();
 
-// function getPosts() {
-//     database.collection("posts")
-//               .get()
-//               .then(snapshot => {
-//                   snapshot.docs.forEach(docs => {
-//                       console.log(docs.data());
-//                   });
-//               })
-//               .catch(err => {
-//                   console.log(err);
-//               });
-// }
-// getPosts();
-
-function deleteDoc(){
-    database.collection("posts")
-            .doc('document1').delete();
+function getPosts() {
+    database.collection("user-note")
+              .get()
+              .then(snapshot => {
+                  snapshot.docs.forEach(docs => {
+                      console.log(docs.data());
+                  });
+              })
+              .catch(err => {
+                  console.log(err);
+              });
 }
-deleteDoc();
+getPosts();
+
+
+// function deleteDoc(){
+//     database.collection("posts")
+//             .doc('document1').delete();
+// }
+// deleteDoc();
 
 
 $(document).ready(function(){
-    embed_video_url = window.localStorage.getItem('embedURL');
+    latestURL = window.localStorage.getItem('embedURL');
 
     // SET NEW YOUTUBE VIDEO
 
@@ -191,8 +194,7 @@ $(document).ready(function(){
                 // Do anything for being valid
                 // if need to change the url to embed url then use below line
                 videoId = match[2];
-                embed_video_url = 'https://www.youtube.com/embed/' + match[2] + '?autoplay=0';
-                //$('#ytplayerSide').attr('src', 'https://www.youtube.com/embed/' + match[2] + '?autoplay=0');
+                latestURL = 'https://www.youtube.com/embed/' + match[2] + '?autoplay=0';
                 return true;
             }
             else {
