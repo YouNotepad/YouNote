@@ -43,6 +43,39 @@ function stopVideo() {
     player.stopVideo();
 }
 
+// Firestore
+// function setPost(){
+//     database.collection('posts')
+//             .doc()
+//             .set({
+//                 author : "hyunsoo",
+//                 createdAt : "2020-05-29",
+//                 postContent: "This is 2nd post",
+//                 postName : "Welcome Again!"
+//             })
+// }
+// setPost();
+
+// function getPosts() {
+//     database.collection("posts")
+//               .get()
+//               .then(snapshot => {
+//                   snapshot.docs.forEach(docs => {
+//                       console.log(docs.data());
+//                   });
+//               })
+//               .catch(err => {
+//                   console.log(err);
+//               });
+// }
+// getPosts();
+
+function deleteDoc(){
+    database.collection("posts")
+            .doc('document1').delete();
+}
+deleteDoc();
+
 
 $(document).ready(function(){
     embed_video_url = window.localStorage.getItem('embedURL');
@@ -145,29 +178,7 @@ $(document).ready(function(){
         }
     }
 
-    // function timestampFunction() {
-    //     var table= document.getElementById("timestampTable");
-        
-    //     if ("explanation" != ""){
-    //         var row = table.insertRow(1);
-    //         row.classname = "newtimestamp";
-    //         var c1 = row.insertCell(0);
-    //         var c2 = row.insertCell(1); 
-            
-    //         c2.innerHTML = document.getElementById("explanation").value;
-              
-    //         var player = document.getElementById('player');
-    //         var time = player.getCurrentTime();
-
-    //         setTimeout(stopVideo, 6000);
-    //         if(player && player.getCurrentTime) {
-    //         videotime = player.getCurrentTime();
-
-    //         var prettytime= parseInt(videotime);
-    //         document.getElementById("timeurl").innerHTML = prettytime;
-    //       }
-    //     }
-    // }
+    
 
     
 });
