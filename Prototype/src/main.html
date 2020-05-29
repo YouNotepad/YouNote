@@ -72,42 +72,7 @@
                       <textarea id="mytextarea" name="mytextarea">
                         
                       </textarea>
-                      <script>
-                          var data;
-                        var editor = CKEDITOR.replace( 'mytextarea' );
-                        CKEDITOR.config.tabSpaces = 4;
-                        CKEDITOR.config.height = '80vh';
-                        CKEDITOR.config.removePlugins = 'specialchar,image';
-
-                        CKEDITOR.config.extraPlugins = 'codesnippet';
-                        
-                        
-                
-                editor.on( 'change', function( evt ) {
-                    // getData() returns CKEditor's HTML content.
-                    //console.log( 'Total bytes: ' + evt.editor.getData() );
-                    console.log("something typed");
-                });
-                function saveHandle(){
-                    console.log("save clicked");
-                    data = CKEDITOR.instances.mytextarea.getData();
-                   
-                    console.log("data: " + data);
-                }
-                function openHandle(){
-                    console.log("open clicked");
-                    
-                    CKEDITOR.instances.mytextarea.insertHtml(data);
-                    
-                }
-                        
-                        
-                       
-                      
-                        
-                </script>
-             
-                
+            
             </div>
         </section>
         
@@ -172,7 +137,7 @@
                         <form>
                           <div class="form-group" id = "timestampTable">
                             <label for="tsTitle" >Current Timestamp is <b>[<span id = "timeurl" >time</span>s]</b></label>
-                            <input type="text" class="form-control" id="tsTitle" placeholder="Enter a title for timestamp.                   e.g., hashTable">
+                            <input type="text" class="form-control" id="tsTitle" placeholder="Timestamp description.                   e.g., hashTable">
                           </div>
                         </form>
                     </div>
@@ -185,28 +150,45 @@
             </div>
                 
         </div>
-    
-    <script>
-        
-        
-    </script>
-    
-    
-    
-    
-    
-    
+   
     
         <script>
+
             Split(['.a','.b'],{
                 gutterSize:5,
                 sizes:[50,50],
                 minSize:[200,200]
             });
+            //CKEDITOR PART
 
-    
-        </script>
-        <script>
+             var data;
+                        var editor = CKEDITOR.replace( 'mytextarea' );
+                        CKEDITOR.config.tabSpaces = 4;
+                        CKEDITOR.config.height = '80vh';
+                        CKEDITOR.config.removePlugins = 'specialchar,image';
+
+                        CKEDITOR.config.extraPlugins = 'codesnippet';
+                        
+                        
+                
+                editor.on( 'change', function( evt ) {
+                    // getData() returns CKEditor's HTML content.
+                    //console.log( 'Total bytes: ' + evt.editor.getData() );
+                    console.log("something typed");
+                });
+                function saveHandle(){
+                    console.log("save clicked");
+                    data = CKEDITOR.instances.mytextarea.getData();
+                   
+                    console.log("data: " + data);
+                }
+                function openHandle(){
+                    console.log("open clicked");
+                    
+                    CKEDITOR.instances.mytextarea.insertHtml(data);
+                    
+                }
+                        
             function addRow () {
                 
                 var h = document.getElementsByClassName("cke_editable cle_editable_themed cke_contents_ltr cke_show_borders");
@@ -214,46 +196,6 @@
             }
         </script>
 
-        <!-- <script>
-            function insertAtCaret(areaId, text) {
-                var txtarea = document.getElementById(areaId);
-                if (!txtarea) {
-                    return;
-                }
-
-                var scrollPos = txtarea.scrollTop;
-                var strPos = 0;
-                var br = ((txtarea.selectionStart || txtarea.selectionStart == '0') ?
-                    "ff" : (document.selection ? "ie" : false));
-                if (br == "ie") {
-                    txtarea.focus();
-                    var range = document.selection.createRange();
-                    range.moveStart('character', -txtarea.value.length);
-                    strPos = range.text.length;
-                } else if (br == "ff") {
-                    strPos = txtarea.selectionStart;
-                }
-
-                var front = (txtarea.value).substring(0, strPos);
-                var back = (txtarea.value).substring(strPos, txtarea.value.length);
-                txtarea.value = front + text + back;
-                strPos = strPos + text.length;
-                if (br == "ie") {
-                    txtarea.focus();
-                    var ieRange = document.selection.createRange();
-                    ieRange.moveStart('character', -txtarea.value.length);
-                    ieRange.moveStart('character', strPos);
-                    ieRange.moveEnd('character', 0);
-                    ieRange.select();
-                } else if (br == "ff") {
-                    txtarea.selectionStart = strPos;
-                    txtarea.selectionEnd = strPos;
-                    txtarea.focus();
-                }
-
-            txtarea.scrollTop = scrollPos;
-            }
-        </script> -->
 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
