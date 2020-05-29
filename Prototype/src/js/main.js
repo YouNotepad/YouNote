@@ -5,7 +5,7 @@ var timestamp = 0;
 var tsList = [];
 var tempTs = [];
 var tsListCount = 0;
-var videoTitle = "";
+var videoTitle;
 
 // YOUTUBE VIDEO INITIALIZATION
 latestURL = window.localStorage.getItem("embedURL");
@@ -72,13 +72,24 @@ editor.on("change", function (evt) {
 function saveHandle() {
   console.log("save clicked");
   noteContent = CKEDITOR.instances.mytextarea.getData();
-  window.localStorage.setItem("content", noteContent);
+  database.collection("user-note").doc("note1").update({
+    noteContent: noteContent,
+  });
   console.log("noteContent: " + noteContent);
 }
 function openHandle() {
   console.log("open clicked");
 
-  CKEDITOR.instances.mytextarea.insertHtml(noteContent);
+  CKEDITOR.instances.mytextarea.setData("");
+
+  database
+    .collection("user-note")
+    .doc("note1")
+    .get()
+    .then(function (doc) {
+      noteContent = doc.data().noteContent;
+      CKEDITOR.instances.mytextarea.insertHtml(noteContent);
+    });
 }
 
 // Firestore
@@ -95,12 +106,14 @@ function openHandle() {
 // }
 // setPost();
 
+// function getPosts() {
 // function doseNoteExist() {
 //   database
 //     .collection("user-note")
 //     .get()
 //     .then((snapshot) => {
 //       snapshot.docs.forEach((docs) => {
+//         console.log(docs.data());
 //         // console.log(docs.data());
 //         docs.data().title;
 //       });
@@ -116,11 +129,91 @@ function openHandle() {
 // }
 // deleteDoc();
 
+//OpenNote call
+function openNoteHandler(title) {
+  CKEDITOR.instances.mytextarea.setData("");
+  while (tsListCount != 0) {
+    $("#tsDiv").prev("#tsLists").remove();
+    tsListCount--;
+  }
+  tsList = [];
+  tempTs = [];
+  database
+    .collection("user-note")
+    .where("title", "==", title)
+    .get()
+    .then(function (querySnapshot) {
+      querySnapshot.forEach(function (doc) {
+        // doc.data() is never undefined for query doc snapshots
+        console.log(doc.id, " => ", doc.data());
+        latestURL = doc.data().latestURL;
+        CKEDITOR.instances.mytextarea.insertHtml(doc.data().noteContent);
+        title = doc.data().title;
+        videoTitle = doc.data().title;
+        console.log("VideoTitle is");
+        console.log(videoTitle);
+        player.loadVideoById({
+          videoId: latestURL,
+        });
+      });
+    })
+    .catch(function (error) {
+      console.log("Error getting documents: ", error);
+    });
+  console.log("docs want!");
+  database
+    .collection("user-note")
+    .doc(title)
+    .collection("timestamps")
+    .get()
+    .then(function (querySnapshot) {
+      querySnapshot.forEach(function (doc) {
+        // doc.data() is never undefined for query doc snapshots
+        console.log(doc.id, " => ", doc.data().title);
+        tempTs = [];
+
+        _id = doc.data().videoId;
+        _title = doc.data().title;
+        _time = doc.data().time;
+        _date = doc.data().date;
+
+        tempTs.push(_id);
+        tempTs.push(_title);
+        tempTs.push(_time);
+        tempTs.push(_date);
+
+        // Add tempTs in tsList
+        tsList.push(tempTs);
+        tempTs = [];
+      });
+      tsList.map((eachTS) => {
+        tsListCount++;
+        // id = eachTS[0];
+        // stime = eachTS[2];
+        $(`
+                  <div id="tsLists" class="d-flex flex-row">
+                      <div class="pl-4 align-self-start">
+                          <a href = "#" onclick="openVideoByTS('${eachTS[0]}', '${eachTS[2]}');">
+                              <p>[${eachTS[2]}]</p>
+                          </a>
+                      </div>
+                      <div class="VideoURL pl-4 align-self-end">${eachTS[1]}</div>
+                  </div>
+                  `).insertBefore("#tsDiv");
+      });
+    });
+
+  console.log("docs: ", docs);
+
+  $("#cancel-opn").click();
+}
+
 // TIMESTAMP VIDEO CALL
-function openVideoByTS(id, stime) {
+function openVideoByTS(id, ts) {
+  alert("got in");
   player.loadVideoById({
     videoId: id,
-    startSeconds: parseInt(stime),
+    startSeconds: ts,
   });
 
   $("#cancel-ts").click();
@@ -147,80 +240,53 @@ $(document).ready(function () {
     }
   });
 
-  // CREATE NEW NOTE
+  // REFRESH NEW VIDEO URL INPUT BOX
 
-  $("#newNoteBtn").click(function () {
-    // clear note section
-    CKEDITOR.instances.mytextarea.setData("");
-    // make timestamp list empty
-    tsList = [];
-    while (tsListCount != 0) {
-      $("#tsDiv").prev("#tsLists").remove();
-      tsListCount--;
-    }
-
-    // SAVE NOTE VALIDATE
-    $("#saveNote").click(function () {
-      if (videoTitle != undefined || videoTitle != "") {
-        // Save Note Action with title (Modal required)
-        $("#saveNoteModal").modal("show");
-      } else {
-        // Save Note Action without  title
-        alert("save note");
-      }
-    });
-
-    // SAVE NOTE
-    $("#saveNoteBtn").click(function () {
-      alert("saveNoteBTN");
-      // Title input
-      var title = $("#saveNoteInput").val();
-      database.collection("user-note").doc(title).set({
-        //   author : "hyunsoo",
-        //   createdAt : "2020-05-29",
-        //   postContent: "This is 2nd post",
-        //   postName : "Welcome Again!"
-        title: title,
-        noteContent: CKEDITOR.instances.mytextarea.getData(),
-        latestURL: videoId,
-        date: new Date(),
-      });
-
-      tsList.map((eachTS) => {
-        database
-          .collection("user-note")
-          .doc(title)
-          .collection("timestamps")
-          .doc(eachTS[1])
-          .set({
-            videoId: eachTS[0],
-            title: eachTS[1],
-            time: eachTS[2],
-            date: eachTS[3],
-          })
-          .catch((err) => {
-            console.log(err);
-          });
-      });
-    });
-
-    // REFRESH NEW VIDEO URL INPUT BOX
-
-    $("#watchNewVideo").click(function () {
-      $("#urlInput").val("");
-    });
-
-    // Open modal for new video URL
-    $("#watchNewVideo").click();
-    $("#cancel-newNote").click();
+  $("#watchNewVideo").click(function () {
+    $("#urlInput").val("");
   });
+  //OPEN NOTE
 
-  // PREVENT ENTER KEY DOWN
-
-  $('input[type="text"]').keydown(function () {
-    if (event.keyCode === 13) {
-      event.preventDefault();
+  var noteCount = 0;
+  $("#opennote").click(function () {
+    console.log("opennote");
+    // var tsTitleInput = $("#tsTitle").val();
+    // if (tsTitleInput != undefined || tsTitleInput != "") {
+    //   while (tsListCount != 0) {
+    //     $("#tsDiv").prev("#tsLists").remove();
+    //     tsListCount--;
+    //   }
+    // Add title, time and date in tempTs
+    while (noteCount != 0) {
+      $("#opnDiv").next("#notesLists").remove();
+      console.log("notecount", noteCount);
+      noteCount--;
     }
+    database
+      .collection("user-note")
+      .get()
+      .then((snapshot) => {
+        snapshot.docs.forEach((docs) => {
+          console.log("doc", docs.data().title);
+          noteCount++;
+
+          $(`
+                <div id="notesLists" class="d-flex flex-row">
+                    <div class="pl-4 align-self-start">
+                        <a href = "#" onclick="openNoteHandler('${
+                          docs.data().title
+                        }');">
+                            <p>${docs.data().title}</p>
+                        </a>
+                    </div>
+                   
+                </div>
+                `).insertAfter("#opnDiv");
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   });
   // TIMESTAMP SAVING
 
@@ -244,12 +310,12 @@ $(document).ready(function () {
       var stime = 0;
       tsList.map((eachTS) => {
         tsListCount++;
-        id = eachTS[0];
-        stime = eachTS[2];
+        // id = eachTS[0];
+        // stime = eachTS[2];
         $(`
                 <div id="tsLists" class="d-flex flex-row">
                     <div class="pl-4 align-self-start">
-                        <a href="#" onclick='openVideoByTS("${eachTS[0]}", "${eachTS[2]}");'>
+                        <a href = "#" onclick="openVideoByTS('${eachTS[0]}', '${eachTS[2]}');">
                             <p>[${eachTS[2]}]</p>
                         </a>
                     </div>
@@ -260,7 +326,22 @@ $(document).ready(function () {
 
       // set tempTS list empty
       tempTs = [];
+      //$('#cancel-ts').click();
     }
+    // var count = 0;
+    // if ($('.modal-videoURLs').is(":empty")){
+    //     videoLists.map(videoURL => {
+    //         $('.modal-videoURLs').append(`
+    //         <div class="d-flex flex-row">
+    //             <div class="p-4 align-self-start">
+    //             <p><i class="fas fa-video"></i><br>URL</p>
+    //             </div>
+    //             <a href="main.html"><div id="url${count}" class="VideoURL p-4 align-self-end">${videoURL}</div></a>
+    //         </div>
+    //         `);
+    //         count += 1;
+    //     });
+    // }
   });
 
   // EMBED VIDEOURL GENERATOR
@@ -281,4 +362,118 @@ $(document).ready(function () {
       }
     }
   }
+
+  function timestampFunction() {
+    var table = document.getElementById("timestampTable");
+
+    if ("explanation" != "") {
+      var row = table.insertRow(1);
+      row.classname = "newtimestamp";
+      var c1 = row.insertCell(0);
+      var c2 = row.insertCell(1);
+
+      c2.innerHTML = document.getElementById("explanation").value;
+
+      var player = document.getElementById("player");
+      var time = player.getCurrentTime();
+
+      setTimeout(stopVideo, 6000);
+      if (player && player.getCurrentTime) {
+        videotime = player.getCurrentTime();
+
+        var prettytime = parseInt(videotime);
+        document.getElementById("timeurl").innerHTML = prettytime;
+      }
+    }
+  }
+});
+
+// CREATE NEW NOTE
+
+$("#newNoteBtn").click(function () {
+  // clear note section
+  CKEDITOR.instances.mytextarea.setData("");
+  // make timestamp list empty
+  tsList = [];
+  while (tsListCount != 0) {
+    $("#tsDiv").prev("#tsLists").remove();
+    tsListCount--;
+  }
+
+  // SAVE NOTE VALIDATE
+  $("#saveNote").click(function () {
+    if (!videoTitle) {
+      // Save Note Action with title (Modal required)
+      $("#saveNoteModal").open();
+      //   $("#saveNote").prop("href", "#saveNoteModal");
+    } else {
+      // Save Note Action without  title
+
+      database.collection("user-note").doc(title).update({
+        noteContent: CKEDITOR.instances.mytextarea.getData(),
+        latestURL: videoId,
+        date: new Date(),
+      });
+      tsList.map((eachTS) => {
+        database
+          .collection("user-note")
+          .doc(title)
+          .collection("timestamps")
+          .doc(eachTS[1])
+          .update({
+            videoId: eachTS[0],
+            title: eachTS[1],
+            time: eachTS[2],
+            date: eachTS[3],
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      });
+    }
+  });
+
+  // Open modal for new video URL
+  $("#watchNewVideo").click();
+  $("#cancel-newNote").click();
+});
+
+// PREVENT ENTER KEY DOWN
+
+$('input[type="text"]').keydown(function () {
+  if (event.keyCode === 13) {
+    event.preventDefault();
+  }
+});
+
+// SAVE NOTE
+$("#saveNoteBtn").click(function () {
+  alert("saveNoteBTN");
+
+  var title = $("#saveNoteInput").val();
+  videoTitle = title;
+  database.collection("user-note").doc(title).set({
+    title: title,
+    noteContent: CKEDITOR.instances.mytextarea.getData(),
+    latestURL: videoId,
+    date: new Date(),
+  });
+  tsList.map((eachTS) => {
+    database
+      .collection("user-note")
+      .doc(title)
+      .collection("timestamps")
+      .doc(eachTS[1])
+      .set({
+        videoId: eachTS[0],
+        title: eachTS[1],
+        time: eachTS[2],
+        date: eachTS[3],
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  });
+
+  $("#cancel-saveNote").click();
 });
