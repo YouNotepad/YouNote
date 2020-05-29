@@ -182,7 +182,7 @@ $(document).ready(function () {
         //   postName : "Welcome Again!"
         title: title,
         noteContent: CKEDITOR.instances.mytextarea.getData(),
-        latestURL: latestURL,
+        latestURL: videoId,
         date: new Date(),
       });
 
