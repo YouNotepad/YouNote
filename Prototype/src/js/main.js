@@ -3,94 +3,91 @@ var videoId = "";
 var tsList = {};
 var timestamp = 0;
 
-videoId = window.localStorage.getItem('videoId');
-var tag = document.createElement('script');
+// YOUTUBE VIDEO INITIALIZATION
 
-tag.src = "https://www.youtube.com/iframe_api";
-var firstScriptTag = document.getElementsByTagName('script')[0];
-firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+    videoId = window.localStorage.getItem('videoId');
+    var tag = document.createElement('script');
 
-var player;
-var videotime = 0;
+    tag.src = "https://www.youtube.com/iframe_api";
+    var firstScriptTag = document.getElementsByTagName('script')[0];
+    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+    var player;
+    var videotime = 0;
 
 
-Split(['.a','.b'],{
-    gutterSize:5,
-    sizes:[50,50],
-    minSize:[200,200]
-});
+    function onYouTubeIframeAPIReady() {
+        player = new YT.Player('player', {
+            // height: '390',
+            // width: '640',
+            videoId: videoId,
+            events: {
+                'onReady': onPlayerReady,
+            }
+        });
+    }
+
+    function onPlayerReady(event) {
+        event.target.playVideo();
+        function updateTime() {
+            var oldTime = videotime;
+            if(player && player.getCurrentTime) {
+            videotime = player.getCurrentTime().toFixed(2);
+            document.getElementById("timeurl").innerHTML = videotime;
+            }
+            if(videotime !== oldTime) {
+            onProgress(videotime);
+            }
+        }
+        timeupdater = setInterval(updateTime, 10);
+    }
+
+    function stopVideo() {
+        player.stopVideo();
+    }
+
+
+// SPLIT LIBRARY
+
+    Split(['.a','.b'],{
+        gutterSize:5,
+        sizes:[50,50],
+        minSize:[200,200]
+    });
+
+
 //CKEDITOR PART
 
-var data;
+    var data;
+    var editor = CKEDITOR.replace( 'mytextarea' );
+    CKEDITOR.config.tabSpaces = 4;
+    CKEDITOR.config.height = '80vh';
+    CKEDITOR.config.removePlugins = 'specialchar,image';
 
-
-var editor = CKEDITOR.replace( 'mytextarea' );
-CKEDITOR.config.tabSpaces = 4;
-CKEDITOR.config.height = '80vh';
-CKEDITOR.config.removePlugins = 'specialchar,image';
-
-CKEDITOR.config.extraPlugins = 'codesnippet';
+    CKEDITOR.config.extraPlugins = 'codesnippet';
             
             
-    
-editor.on( 'change', function( evt ) {
+    editor.on( 'change', function( evt ) {
         // getData() returns CKEditor's HTML content.
         //console.log( 'Total bytes: ' + evt.editor.getData() );
-console.log("something typed");
+        console.log("something typed");
     });
-//save button clicked
-function saveHandle(){
-    console.log("save clicked");
-    data = CKEDITOR.instances.mytextarea.getData();
-    window.localStorage.setItem("content", data);
-    console.log("data: " + data);
+    function saveHandle(){
+        console.log("save clicked");
+        data = CKEDITOR.instances.mytextarea.getData();
+        window.localStorage.setItem("content", data);
+        console.log("data: " + data);
     }
-//open button clicked
-function openHandle(){
-    console.log("open clicked");
+    function openHandle(){
+        console.log("open clicked");
         
-    CKEDITOR.instances.mytextarea.insertHtml(data);
+        CKEDITOR.instances.mytextarea.insertHtml(data);
         
     }
             
-function addRow () {
-    
-    var h = document.getElementsByClassName("cke_editable cle_editable_themed cke_contents_ltr cke_show_borders");
-    h.insertAdjacentHTML("beforeend", '<pre> <code class="plaintext hljs"> Place your code here </code> </pre>');
-}
-
-
-function onYouTubeIframeAPIReady() {
-    player = new YT.Player('player', {
-        // height: '390',
-        // width: '640',
-        videoId: videoId,
-        events: {
-            'onReady': onPlayerReady,
-        }
-    });
-}
-
-function onPlayerReady(event) {
-    event.target.playVideo();
-    function updateTime() {
-        var oldTime = videotime;
-        if(player && player.getCurrentTime) {
-        videotime = player.getCurrentTime().toFixed(2);
-        document.getElementById("timeurl").innerHTML = videotime;
-        }
-        if(videotime !== oldTime) {
-        onProgress(videotime);
-        }
-    }
-    timeupdater = setInterval(updateTime, 10);
-}
-
-function stopVideo() {
-    player.stopVideo();
-}
 
 // Firestore
+
 // function setPost(){
 //     database.collection('posts')
 //             .doc()
@@ -117,29 +114,22 @@ function stopVideo() {
 // }
 // getPosts();
 
-function deleteDoc(){
-    database.collection("posts")
-            .doc('document1').delete();
-}
-deleteDoc();
-console.log("work!");
-console.log(window.localStorage.getItem("content"));
+// function deleteDoc(){
+//     database.collection("posts")
+//             .doc('document1').delete();
+// }
+// deleteDoc();
+
 
 $(document).ready(function(){
     embed_video_url = window.localStorage.getItem('embedURL');
-    console.log("work!");
-    console.log(window.localStorage.getItem("content"));
-    // $('#ytplayer').attr('src', url);
-    
-    //videoLists.push(url);
-    // videoLists.push("2nd url");
-    // videoLists.push("3rd url");
+
+    // SET NEW YOUTUBE VIDEO
 
     $('#newVideoURLBtn').click(function(){
         var newUrl  = $('#urlInput').val();
         console.log(newUrl);
         var isValidURL = embed_videoURL_generator(newUrl);
-        
         if(isValidURL){
             player.loadVideoById({
                 videoId:videoId
@@ -154,9 +144,15 @@ $(document).ready(function(){
         }
     });
 
+
+    // REFRESH NEW VIDEO URL INPUT BOX
+
     $('#watchNewVideo').click(function(){
         $('#urlInput').val('');
     });
+
+
+    // TIMESTAMP SAVING
 
     $('#saveTS').click(function(){
         var tsTitleInput = $('#tsTitle').val();
@@ -184,8 +180,8 @@ $(document).ready(function(){
 
     });
 
-  
 
+    // EMBED VIDEOURL GENERATOR
 
     function embed_videoURL_generator(url){
         if (url != undefined || url != '') {
@@ -206,7 +202,7 @@ $(document).ready(function(){
         }
     }
 
-
+    
     function timestampFunction() {
         var table= document.getElementById("timestampTable");
         
@@ -230,6 +226,8 @@ $(document).ready(function(){
           }
         }
     }
+
+    
 
     
 
