@@ -401,38 +401,7 @@ $("#newNoteBtn").click(function () {
   }
 
   // SAVE NOTE VALIDATE
-  $("#saveNote").click(function () {
-    if (!videoTitle) {
-      // Save Note Action with title (Modal required)
-      $("#saveNoteModal").open();
-      //   $("#saveNote").prop("href", "#saveNoteModal");
-    } else {
-      // Save Note Action without  title
-
-      database.collection("user-note").doc(title).update({
-        noteContent: CKEDITOR.instances.mytextarea.getData(),
-        latestURL: videoId,
-        date: new Date(),
-      });
-      tsList.map((eachTS) => {
-        database
-          .collection("user-note")
-          .doc(title)
-          .collection("timestamps")
-          .doc(eachTS[1])
-          .update({
-            videoId: eachTS[0],
-            title: eachTS[1],
-            time: eachTS[2],
-            date: eachTS[3],
-          })
-          .catch((err) => {
-            console.log(err);
-          });
-      });
-    }
-  });
-
+ 
   // Open modal for new video URL
   $("#watchNewVideo").click();
   $("#cancel-newNote").click();
@@ -477,3 +446,38 @@ $("#saveNoteBtn").click(function () {
 
   $("#cancel-saveNote").click();
 });
+
+$("#saveNote").click(function () {
+  console.log("saveNoteClicked");
+  console.log("if test",videoTitle);
+  if (videoTitle === "" || videoTitle == undefined) {
+    // Save Note Action with title (Modal required)
+    //$("#saveNoteModal").open();
+       $("#saveNote").prop("href", "#saveNoteModal");
+  } else {
+    // Save Note Action without  title
+
+    database.collection("user-note").doc(videoTitle).update({
+      noteContent: CKEDITOR.instances.mytextarea.getData(),
+      latestURL: videoId,
+      date: new Date(),
+    });
+    tsList.map((eachTS) => {
+      database
+        .collection("user-note")
+        .doc(videoTitle)
+        .collection("timestamps")
+        .doc(eachTS[1])
+        .update({
+          videoId: eachTS[0],
+          title: eachTS[1],
+          time: eachTS[2],
+          date: eachTS[3],
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    });
+  }
+});
+
