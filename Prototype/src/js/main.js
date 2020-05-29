@@ -5,6 +5,7 @@ var timestamp = 0;
 var tsList = [];
 var tempTs = [];
 var tsListCount = 0;
+var videoTitle = "";
 
 // YOUTUBE VIDEO INITIALIZATION
 latestURL = window.localStorage.getItem("embedURL");
@@ -94,20 +95,20 @@ function openHandle() {
 // }
 // setPost();
 
-function getPosts() {
-  database
-    .collection("user-note")
-    .get()
-    .then((snapshot) => {
-      snapshot.docs.forEach((docs) => {
-        console.log(docs.data());
-      });
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-}
-getPosts();
+// function doseNoteExist() {
+//   database
+//     .collection("user-note")
+//     .get()
+//     .then((snapshot) => {
+//       snapshot.docs.forEach((docs) => {
+//         // console.log(docs.data());
+//         docs.data().title;
+//       });
+//     })
+//     .catch((err) => {
+//       console.log(err);
+//     });
+// }
 
 // function deleteDoc(){
 //     database.collection("posts")
@@ -146,12 +147,6 @@ $(document).ready(function () {
     }
   });
 
-  // REFRESH NEW VIDEO URL INPUT BOX
-
-  $("#watchNewVideo").click(function () {
-    $("#urlInput").val("");
-  });
-
   // CREATE NEW NOTE
 
   $("#newNoteBtn").click(function () {
@@ -164,11 +159,69 @@ $(document).ready(function () {
       tsListCount--;
     }
 
+    // SAVE NOTE VALIDATE
+    $("#saveNote").click(function () {
+      if (videoTitle != undefined || videoTitle != "") {
+        // Save Note Action with title (Modal required)
+        $("#saveNoteModal").modal("show");
+      } else {
+        // Save Note Action without  title
+        alert("save note");
+      }
+    });
+
+    // SAVE NOTE
+    $("#saveNoteBtn").click(function () {
+      alert("saveNoteBTN");
+      // Title input
+      var title = $("#saveNoteInput").val();
+      database.collection("user-note").doc(title).set({
+        //   author : "hyunsoo",
+        //   createdAt : "2020-05-29",
+        //   postContent: "This is 2nd post",
+        //   postName : "Welcome Again!"
+        title: title,
+        noteContent: CKEDITOR.instances.mytextarea.getData(),
+        latestURL: latestURL,
+        date: new Date(),
+      });
+
+      tsList.map((eachTS) => {
+        database
+          .collection("user-note")
+          .doc(title)
+          .collection("timestamps")
+          .doc(eachTS[1])
+          .set({
+            videoId: eachTS[0],
+            title: eachTS[1],
+            time: eachTS[2],
+            date: eachTS[3],
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      });
+    });
+
+    // REFRESH NEW VIDEO URL INPUT BOX
+
+    $("#watchNewVideo").click(function () {
+      $("#urlInput").val("");
+    });
+
     // Open modal for new video URL
     $("#watchNewVideo").click();
     $("#cancel-newNote").click();
   });
 
+  // PREVENT ENTER KEY DOWN
+
+  $('input[type="text"]').keydown(function () {
+    if (event.keyCode === 13) {
+      event.preventDefault();
+    }
+  });
   // TIMESTAMP SAVING
 
   $("#saveTS").click(function () {
@@ -225,30 +278,6 @@ $(document).ready(function () {
       } else {
         // Do anything for not being valid
         return false;
-      }
-    }
-  }
-
-  function timestampFunction() {
-    var table = document.getElementById("timestampTable");
-
-    if ("explanation" != "") {
-      var row = table.insertRow(1);
-      row.classname = "newtimestamp";
-      var c1 = row.insertCell(0);
-      var c2 = row.insertCell(1);
-
-      c2.innerHTML = document.getElementById("explanation").value;
-
-      var player = document.getElementById("player");
-      var time = player.getCurrentTime();
-
-      setTimeout(stopVideo, 6000);
-      if (player && player.getCurrentTime) {
-        videotime = player.getCurrentTime();
-
-        var prettytime = parseInt(videotime);
-        document.getElementById("timeurl").innerHTML = prettytime;
       }
     }
   }
