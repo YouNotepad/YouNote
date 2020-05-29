@@ -21,31 +21,35 @@ Split(['.a','.b'],{
 });
 //CKEDITOR PART
 
- var data;
-            var editor = CKEDITOR.replace( 'mytextarea' );
-            CKEDITOR.config.tabSpaces = 4;
-            CKEDITOR.config.height = '80vh';
-            CKEDITOR.config.removePlugins = 'specialchar,image';
+var data;
 
-            CKEDITOR.config.extraPlugins = 'codesnippet';
+
+var editor = CKEDITOR.replace( 'mytextarea' );
+CKEDITOR.config.tabSpaces = 4;
+CKEDITOR.config.height = '80vh';
+CKEDITOR.config.removePlugins = 'specialchar,image';
+
+CKEDITOR.config.extraPlugins = 'codesnippet';
             
             
     
-    editor.on( 'change', function( evt ) {
+editor.on( 'change', function( evt ) {
         // getData() returns CKEditor's HTML content.
         //console.log( 'Total bytes: ' + evt.editor.getData() );
-        console.log("something typed");
+console.log("something typed");
     });
-    function saveHandle(){
-        console.log("save clicked");
-        data = CKEDITOR.instances.mytextarea.getData();
-        window.localStorage.setItem("content", data);
-        console.log("data: " + data);
+//save button clicked
+function saveHandle(){
+    console.log("save clicked");
+    data = CKEDITOR.instances.mytextarea.getData();
+    window.localStorage.setItem("content", data);
+    console.log("data: " + data);
     }
-    function openHandle(){
-        console.log("open clicked");
+//open button clicked
+function openHandle(){
+    console.log("open clicked");
         
-        CKEDITOR.instances.mytextarea.insertHtml(data);
+    CKEDITOR.instances.mytextarea.insertHtml(data);
         
     }
             
