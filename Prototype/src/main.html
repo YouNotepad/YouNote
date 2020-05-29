@@ -27,6 +27,9 @@
                 <div class="collapse navbar-collapse" id="navbarCollapse">
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item">
+                            <a href="#newNoteModal" class="nav-link" data-toggle="modal" data-target="#newNoteModal"><i class="far fa-folder-open"></i> New Note</a>
+                        </li>
+                        <li class="nav-item">
                             <a href="#home" class="nav-link" onclick="openHandle()"><i class="far fa-folder-open"></i> Open Note</a>
                         </li>
                         <li class="nav-item">
@@ -68,6 +71,32 @@
         </section>
         
 
+        <!-- NEW NOTE MODAL-->
+        <div class="modal fade text-dark" id="newNoteModal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <h1 class="display-8 text-center p-3"><strong>New Note</strong></h1>
+                    <div class="modal-videoURLs">
+                        <div id="inputNewUrl" class="d-flex flex-row">
+                            <div class="modal-body">
+                                <form>
+                                  <div class="form-group">
+                                    <label class="col-form-label">This action will clear the NOTE section!</label>
+                                  </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" id="newNoteBtn">Create New Note</button>
+                        <a href="" id="cancel-newNote" type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</a>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+
+
         <!-- NEW YOUTUBE VIDEO MODAL-->
 
         <div class="modal fade text-dark" id="watchNewVideoModal">
@@ -99,7 +128,7 @@
          <!-- TIMESTAMP MODAL-->
 
         <div class="modal fade text-dark" id="timestampModal">
-            <div class="modal-dialog">
+            <div class="modal-dialog modal-dialog-scrollable">
                 <div class="modal-content">
                     <h1 class="display-8 text-center p-3"><strong>Time Stamp</strong></h1>
                     
@@ -110,16 +139,19 @@
                   
                     <div class="modal-body">
                         <form>
-                          <div class="form-group" id = "timestampTable">
-                            <label for="tsTitle" >Current Timestamp is <b>[<span id = "timeurl" >time</span>s]</b></label>
-                            <input type="text" class="form-control" id="tsTitle" placeholder="Timestamp description.                   e.g., hashTable">
-                          </div>
-                        </form>
+                            <div class="form-group" id = "timestampTable">
+                              <label for="tsTitle" >Current Timestamp is <b>[<span id = "timeurl" >time</span>s]</b></label>
+                              <input type="text" class="form-control" id="tsTitle" placeholder="Timestamp description.                   e.g., hashTable">
+                            </div>
+                          </form>
+
+                        <div id="tsDiv"></div>
                     </div>
-                  
+                    
+     
                 <div class="modal-footer">
                     <button type="button" class="btn btn-primary" id="saveTS" ">Save Timestamp</button>
-                    <a href="" id="cancel-btn" type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</a>
+                    <a href="" id="cancel-ts" type="button" class="btn btn-secondary" data-dismiss="modal">Close</a>
                 </div>
             </div>
             </div>
