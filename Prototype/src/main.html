@@ -151,62 +151,11 @@
                 
         </div>
    
-    
-        <script>
-
-            Split(['.a','.b'],{
-                gutterSize:5,
-                sizes:[50,50],
-                minSize:[200,200]
-            });
-            //CKEDITOR PART
-
-             var data;
-                        var editor = CKEDITOR.replace( 'mytextarea' );
-                        CKEDITOR.config.tabSpaces = 4;
-                        CKEDITOR.config.height = '80vh';
-                        CKEDITOR.config.removePlugins = 'specialchar,image';
-
-                        CKEDITOR.config.extraPlugins = 'codesnippet';
-                        
-                        
-                
-                editor.on( 'change', function( evt ) {
-                    // getData() returns CKEditor's HTML content.
-                    //console.log( 'Total bytes: ' + evt.editor.getData() );
-                    console.log("something typed");
-                });
-                function saveHandle(){
-                    console.log("save clicked");
-                    data = CKEDITOR.instances.mytextarea.getData();
-                   
-                    console.log("data: " + data);
-                }
-                function openHandle(){
-                    console.log("open clicked");
-                    
-                    CKEDITOR.instances.mytextarea.insertHtml(data);
-                    
-                }
-                        
-            function addRow () {
-                
-                var h = document.getElementsByClassName("cke_editable cle_editable_themed cke_contents_ltr cke_show_borders");
-                h.insertAdjacentHTML("beforeend", '<pre> <code class="plaintext hljs"> Place your code here </code> </pre>');
-            }
-        </script>
-
 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
-        <!-- Firebase -->
-        <!-- The core Firebase JS SDK is always required and must be listed first -->
-        <script src="https://www.gstatic.com/firebasejs/7.14.5/firebase-app.js"></script>
-        <script src="https://www.gstatic.com/firebasejs/7.14.5/firebase-firestore.js"></script>
-        <script src="/Prototype/src/js/app.js"></script>
         <script src="./js/main.js"></script>
-
        
     </body>
 </html>

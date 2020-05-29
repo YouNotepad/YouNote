@@ -13,6 +13,49 @@ firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 var player;
 var videotime = 0;
 
+
+Split(['.a','.b'],{
+    gutterSize:5,
+    sizes:[50,50],
+    minSize:[200,200]
+});
+//CKEDITOR PART
+
+ var data;
+            var editor = CKEDITOR.replace( 'mytextarea' );
+            CKEDITOR.config.tabSpaces = 4;
+            CKEDITOR.config.height = '80vh';
+            CKEDITOR.config.removePlugins = 'specialchar,image';
+
+            CKEDITOR.config.extraPlugins = 'codesnippet';
+            
+            
+    
+    editor.on( 'change', function( evt ) {
+        // getData() returns CKEditor's HTML content.
+        //console.log( 'Total bytes: ' + evt.editor.getData() );
+        console.log("something typed");
+    });
+    function saveHandle(){
+        console.log("save clicked");
+        data = CKEDITOR.instances.mytextarea.getData();
+        window.localStorage.setItem("content", data);
+        console.log("data: " + data);
+    }
+    function openHandle(){
+        console.log("open clicked");
+        
+        CKEDITOR.instances.mytextarea.insertHtml(data);
+        
+    }
+            
+function addRow () {
+    
+    var h = document.getElementsByClassName("cke_editable cle_editable_themed cke_contents_ltr cke_show_borders");
+    h.insertAdjacentHTML("beforeend", '<pre> <code class="plaintext hljs"> Place your code here </code> </pre>');
+}
+
+
 function onYouTubeIframeAPIReady() {
     player = new YT.Player('player', {
         // height: '390',
@@ -75,10 +118,13 @@ function deleteDoc(){
             .doc('document1').delete();
 }
 deleteDoc();
-
+console.log("work!");
+console.log(window.localStorage.getItem("content"));
 
 $(document).ready(function(){
     embed_video_url = window.localStorage.getItem('embedURL');
+    console.log("work!");
+    console.log(window.localStorage.getItem("content"));
     // $('#ytplayer').attr('src', url);
     
     //videoLists.push(url);
@@ -132,6 +178,8 @@ $(document).ready(function(){
         }
 
     });
+
+  
 
 
     function embed_videoURL_generator(url){
