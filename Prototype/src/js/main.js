@@ -2,6 +2,7 @@ var embed_video_url = "";
 var videoId = "";
 var tsList = {};
 var timestamp = 0;
+var data;
 
 // YOUTUBE VIDEO INITIALIZATION
 
@@ -58,7 +59,7 @@ var timestamp = 0;
 
 //CKEDITOR PART
 
-    var data;
+    
     var editor = CKEDITOR.replace( 'mytextarea' );
     CKEDITOR.config.tabSpaces = 4;
     CKEDITOR.config.height = '80vh';
@@ -75,8 +76,14 @@ var timestamp = 0;
     function saveHandle(){
         console.log("save clicked");
         data = CKEDITOR.instances.mytextarea.getData();
-        window.localStorage.setItem("content", data);
+        
         console.log("data: " + data);
+        database.collection('user-note')
+        .doc('note1')
+        .update({
+            noteContent: data
+        })
+       
     }
     function openHandle(){
         console.log("open clicked");
@@ -98,21 +105,21 @@ var timestamp = 0;
 //                 postName : "Welcome Again!"
 //             })
 // }
-// setPost();
+// setPost(); vdgf3ak6fc
 
-// function getPosts() {
-//     database.collection("posts")
-//               .get()
-//               .then(snapshot => {
-//                   snapshot.docs.forEach(docs => {
-//                       console.log(docs.data());
-//                   });
-//               })
-//               .catch(err => {
-//                   console.log(err);
-//               });
-// }
-// getPosts();
+function getPosts() {
+    database.collection("user-note")
+              .get()
+              .then(snapshot => {
+                  snapshot.docs.forEach(docs => {
+                      console.log(docs.data());
+                  });
+              })
+              .catch(err => {
+                  console.log(err);
+              });
+}
+
 
 // function deleteDoc(){
 //     database.collection("posts")

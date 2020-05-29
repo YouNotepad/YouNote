@@ -13,5 +13,6 @@ var firebaseConfig = {
   // Initialize Firebase
   firebase.initializeApp(firebaseConfig);
   database = firebase.firestore();
+  console.log("database init!");
 
  
