@@ -67,11 +67,7 @@
                 bkLib.onDomLoaded(function() { new nicEditor({fullPanel : true, maxHeight: 900}).panelInstance('mytextarea'); });
             </script> -->
             <div class="cell b">
-                <!-- <script src="//cdn.ckeditor.com/4.14.0/standard/ckeditor.js"></script>  -->
-                <script src="./ckeditor/ckeditor.js"></script>
-                      <textarea class="cell b" id="mytextarea" name="mytextarea">
-                        
-                      </textarea>
+                
                       <script src="./ckeditor/ckeditor.js"></script>
                       <textarea id="mytextarea" name="mytextarea">
                         
@@ -81,7 +77,7 @@
                         var editor = CKEDITOR.replace( 'mytextarea' );
                         CKEDITOR.config.tabSpaces = 4;
                         CKEDITOR.config.height = '80vh';
-                        CKEDITOR.config.removePlugins = 'specialchar';
+                        CKEDITOR.config.removePlugins = 'specialchar,image';
 
                         CKEDITOR.config.extraPlugins = 'codesnippet';
                         
