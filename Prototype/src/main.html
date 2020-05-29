@@ -16,6 +16,7 @@
         <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/highlight.min.js"></script>
         <script>hljs.initHighlightingOnLoad();</script>
 
+        <!-- NAVBAR IN MAIN PAGE-->
 
         <nav class="navbar navbar-expand-sm bg-dark navbar-dark fixed-top">
             <div class="container">
@@ -48,64 +49,26 @@
             </div>
         </nav>
      
-        <!-- HOME SECTION -->
+
+        <!-- MAIN SECTION -->
     
         <section class="content">
             <div class="cell a" >
-                <div id="player"></div>
-                    <!-- <iframe id="ytplayer" type="text/html"  
-                            src="http://www.example.com/"
-                            allowfullscreen="allowfullscreen"
-                            mozallowfullscreen="mozallowfullscreen" 
-                            msallowfullscreen="msallowfullscreen" 
-                            oallowfullscreen="oallowfullscreen" 
-                            webkitallowfullscreen="webkitallowfullscreen"
-                            frameborder="0"></iframe> -->
+                <div id="player">
+
+                </div>    
             </div>
-            <!-- <script type="text/javascript" src="./nicEdit.js"></script>
-            <script type="text/javascript">
-                bkLib.onDomLoaded(function() { new nicEditor({fullPanel : true, maxHeight: 900}).panelInstance('mytextarea'); });
-            </script> -->
+            
             <div class="cell b">
-                
                       <script src="./ckeditor/ckeditor.js"></script>
                       <textarea id="mytextarea" name="mytextarea">
                         
                       </textarea>
-                      <script>
-                          var data;
-                        var editor = CKEDITOR.replace( 'mytextarea' );
-                        CKEDITOR.config.tabSpaces = 4;
-                        CKEDITOR.config.height = '80vh';
-                        CKEDITOR.config.removePlugins = 'specialchar,image';
-                        CKEDITOR.config.extraPlugins = 'codesnippet';
-                        
-                        editor.on( 'change', function( evt ) {
-                            // getData() returns CKEditor's HTML content.
-                            //console.log( 'Total bytes: ' + evt.editor.getData() );
-                            console.log("something typed");
-                        });
-                        function saveHandle(){
-                            console.log("save clicked");
-                            data = CKEDITOR.instances.mytextarea.getData();
-                            console.log("data: " + data);
-                        }
-                        function openHandle(){
-                            console.log("open clicked");
-                            CKEDITOR.instances.mytextarea.insertHtml(data); 
-                        }
-                        
-                        
-                       
-                      
-                        
-                </script>
-             
-                
             </div>
         </section>
         
-        <!-- VIDEO MODAL-->
+
+        <!-- NEW YOUTUBE VIDEO MODAL-->
 
         <div class="modal fade text-dark" id="watchNewVideoModal">
             <div class="modal-dialog">
@@ -121,15 +84,6 @@
                                   </div>
                                 </form>
                             </div>
-                            <!-- <div class="p-4 align-self-start">
-                                <p >new <i class="fas fa-video"></i></p>
-                            </div>
-                            <div class="VideoURL p-4 align-self-end">
-                            
-                                <div class="form-group">
-                                    <input id="urlInput" type="text" class="form-control form-control-lg" placeholder="Video URL:">
-                                </div>
-                            </div> -->
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -141,17 +95,9 @@
             </div>
         </div>
 
-        <div id="myModal" class="modal">
 
-  <!-- Modal content -->
-          <div class="modal-content">
-            
-          </div>
+         <!-- TIMESTAMP MODAL-->
 
-        </div>
-    
-        
-     <!-- TIMESTAMP MODAL-->
         <div class="modal fade text-dark" id="timestampModal">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -166,7 +112,7 @@
                         <form>
                           <div class="form-group" id = "timestampTable">
                             <label for="tsTitle" >Current Timestamp is <b>[<span id = "timeurl" >time</span>s]</b></label>
-                            <input type="text" class="form-control" id="tsTitle" placeholder="Enter a title for timestamp.                   e.g., hashTable">
+                            <input type="text" class="form-control" id="tsTitle" placeholder="Timestamp description.                   e.g., hashTable">
                           </div>
                         </form>
                     </div>
@@ -179,46 +125,16 @@
             </div>
                 
         </div>
-    
-    <script>
-        
-        
-    </script>
-    
-    
-    
-    
-    
-    
-    
-        <script>
-            Split(['.a','.b'],{
-                gutterSize:5,
-                sizes:[50,50],
-                minSize:[200,200]
-            });
-
-    
-        </script>
-        <script>
-            function addRow () {
-                
-                var h = document.getElementsByClassName("cke_editable cle_editable_themed cke_contents_ltr cke_show_borders");
-                h.insertAdjacentHTML("beforeend", '<pre> <code class="plaintext hljs"> Place your code here </code> </pre>');
-            }
-        </script>
-
+   
 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
-        <!-- Firebase -->
         <!-- The core Firebase JS SDK is always required and must be listed first -->
         <script src="https://www.gstatic.com/firebasejs/7.14.5/firebase-app.js"></script>
         <script src="https://www.gstatic.com/firebasejs/7.14.5/firebase-firestore.js"></script>
         <script src="/Prototype/src/js/app.js"></script>
         <script src="./js/main.js"></script>
-
        
     </body>
 </html>

@@ -3,47 +3,91 @@ var videoId = "";
 var tsList = {};
 var timestamp = 0;
 
-videoId = window.localStorage.getItem('videoId');
-var tag = document.createElement('script');
+// YOUTUBE VIDEO INITIALIZATION
 
-tag.src = "https://www.youtube.com/iframe_api";
-var firstScriptTag = document.getElementsByTagName('script')[0];
-firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+    videoId = window.localStorage.getItem('videoId');
+    var tag = document.createElement('script');
 
-var player;
-var videotime = 0;
+    tag.src = "https://www.youtube.com/iframe_api";
+    var firstScriptTag = document.getElementsByTagName('script')[0];
+    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
-function onYouTubeIframeAPIReady() {
-    player = new YT.Player('player', {
-        // height: '390',
-        // width: '640',
-        videoId: videoId,
-        events: {
-            'onReady': onPlayerReady,
-        }
-    });
-}
+    var player;
+    var videotime = 0;
 
-function onPlayerReady(event) {
-    event.target.playVideo();
-    function updateTime() {
-        var oldTime = videotime;
-        if(player && player.getCurrentTime) {
-        videotime = player.getCurrentTime().toFixed(2);
-        document.getElementById("timeurl").innerHTML = videotime;
-        }
-        if(videotime !== oldTime) {
-        onProgress(videotime);
-        }
+
+    function onYouTubeIframeAPIReady() {
+        player = new YT.Player('player', {
+            // height: '390',
+            // width: '640',
+            videoId: videoId,
+            events: {
+                'onReady': onPlayerReady,
+            }
+        });
     }
-    timeupdater = setInterval(updateTime, 10);
-}
 
-function stopVideo() {
-    player.stopVideo();
-}
+    function onPlayerReady(event) {
+        event.target.playVideo();
+        function updateTime() {
+            var oldTime = videotime;
+            if(player && player.getCurrentTime) {
+            videotime = player.getCurrentTime().toFixed(2);
+            document.getElementById("timeurl").innerHTML = videotime;
+            }
+            if(videotime !== oldTime) {
+            onProgress(videotime);
+            }
+        }
+        timeupdater = setInterval(updateTime, 10);
+    }
+
+    function stopVideo() {
+        player.stopVideo();
+    }
+
+
+// SPLIT LIBRARY
+
+    Split(['.a','.b'],{
+        gutterSize:5,
+        sizes:[50,50],
+        minSize:[200,200]
+    });
+
+
+//CKEDITOR PART
+
+    var data;
+    var editor = CKEDITOR.replace( 'mytextarea' );
+    CKEDITOR.config.tabSpaces = 4;
+    CKEDITOR.config.height = '80vh';
+    CKEDITOR.config.removePlugins = 'specialchar,image';
+
+    CKEDITOR.config.extraPlugins = 'codesnippet';
+            
+            
+    editor.on( 'change', function( evt ) {
+        // getData() returns CKEditor's HTML content.
+        //console.log( 'Total bytes: ' + evt.editor.getData() );
+        console.log("something typed");
+    });
+    function saveHandle(){
+        console.log("save clicked");
+        data = CKEDITOR.instances.mytextarea.getData();
+        window.localStorage.setItem("content", data);
+        console.log("data: " + data);
+    }
+    function openHandle(){
+        console.log("open clicked");
+        
+        CKEDITOR.instances.mytextarea.insertHtml(data);
+        
+    }
+            
 
 // Firestore
+
 // function setPost(){
 //     database.collection('posts')
 //             .doc()
@@ -79,11 +123,8 @@ deleteDoc();
 
 $(document).ready(function(){
     embed_video_url = window.localStorage.getItem('embedURL');
-    // $('#ytplayer').attr('src', url);
-    
-    //videoLists.push(url);
-    // videoLists.push("2nd url");
-    // videoLists.push("3rd url");
+
+    // SET NEW YOUTUBE VIDEO
 
     $('#newVideoURLBtn').click(function(){
         var newUrl  = $('#urlInput').val();
@@ -103,9 +144,15 @@ $(document).ready(function(){
         }
     });
 
+
+    // REFRESH NEW VIDEO URL INPUT BOX
+
     $('#watchNewVideo').click(function(){
         $('#urlInput').val('');
     });
+
+
+    // TIMESTAMP SAVING
 
     $('#saveTS').click(function(){
         var tsTitleInput = $('#tsTitle').val();
@@ -134,6 +181,8 @@ $(document).ready(function(){
     });
 
 
+    // EMBED VIDEOURL GENERATOR
+
     function embed_videoURL_generator(url){
         if (url != undefined || url != '') {
             var regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=|\?v=)([^#\&\?]*).*/;
@@ -153,7 +202,7 @@ $(document).ready(function(){
         }
     }
 
-
+    
     function timestampFunction() {
         var table= document.getElementById("timestampTable");
         
@@ -177,6 +226,8 @@ $(document).ready(function(){
           }
         }
     }
+
+    
 
     
 
