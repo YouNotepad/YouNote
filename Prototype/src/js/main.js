@@ -1,97 +1,104 @@
-var embed_video_url = "";
+var latestURL = "";
 var videoId = "";
-var tsList = {};
+var noteTitle = "";
 var timestamp = 0;
-var data;
+var tsList = [];
+var tempTs = [];
 
 // YOUTUBE VIDEO INITIALIZATION
+latestURL = window.localStorage.getItem("embedURL");
+videoId = window.localStorage.getItem("videoId");
+var tag = document.createElement("script");
 
-    videoId = window.localStorage.getItem('videoId');
-    var tag = document.createElement('script');
+tag.src = "https://www.youtube.com/iframe_api";
+var firstScriptTag = document.getElementsByTagName("script")[0];
+firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
-    tag.src = "https://www.youtube.com/iframe_api";
-    var firstScriptTag = document.getElementsByTagName('script')[0];
-    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+var player;
+var videotime = 0;
 
-    var player;
-    var videotime = 0;
+function onYouTubeIframeAPIReady() {
+  player = new YT.Player("player", {
+    // height: '390',
+    // width: '640',
+    videoId: videoId,
+    events: {
+      onReady: onPlayerReady,
+    },
+  });
+}
 
-
-    function onYouTubeIframeAPIReady() {
-        player = new YT.Player('player', {
-            // height: '390',
-            // width: '640',
-            videoId: videoId,
-            events: {
-                'onReady': onPlayerReady,
-            }
-        });
+function onPlayerReady(event) {
+  event.target.playVideo();
+  function updateTime() {
+    var oldTime = videotime;
+    if (player && player.getCurrentTime) {
+      videotime = player.getCurrentTime().toFixed(2);
+      document.getElementById("timeurl").innerHTML = videotime;
     }
-
-    function onPlayerReady(event) {
-        event.target.playVideo();
-        function updateTime() {
-            var oldTime = videotime;
-            if(player && player.getCurrentTime) {
-            videotime = player.getCurrentTime().toFixed(2);
-            document.getElementById("timeurl").innerHTML = videotime;
-            }
-            if(videotime !== oldTime) {
-            onProgress(videotime);
-            }
-        }
-        timeupdater = setInterval(updateTime, 10);
+    if (videotime !== oldTime) {
+      
     }
+  }
+  timeupdater = setInterval(updateTime, 10);
+}
 
-    function stopVideo() {
-        player.stopVideo();
-    }
-
+function stopVideo() {
+  player.stopVideo();
+}
 
 // SPLIT LIBRARY
 
-    Split(['.a','.b'],{
-        gutterSize:5,
-        sizes:[50,50],
-        minSize:[200,200]
-    });
-
+Split([".a", ".b"], {
+  gutterSize: 5,
+  sizes: [50, 50],
+  minSize: [200, 200],
+});
 
 //CKEDITOR PART
 
-    
-    var editor = CKEDITOR.replace( 'mytextarea' );
-    CKEDITOR.config.tabSpaces = 4;
-    CKEDITOR.config.height = '80vh';
-    CKEDITOR.config.removePlugins = 'specialchar,image';
+var noteContent;
+var editor = CKEDITOR.replace('mytextarea');
+CKEDITOR.config.tabSpaces = 4;
+CKEDITOR.config.height = '80vh';
+CKEDITOR.config.removePlugins = 'specialchar,image';
 
-    CKEDITOR.config.extraPlugins = 'codesnippet';
-            
-            
-    editor.on( 'change', function( evt ) {
-        // getData() returns CKEditor's HTML content.
-        //console.log( 'Total bytes: ' + evt.editor.getData() );
-        console.log("something typed");
-    });
-    function saveHandle(){
-        console.log("save clicked");
-        data = CKEDITOR.instances.mytextarea.getData();
+CKEDITOR.config.extraPlugins = 'codesnippet';
         
-        console.log("data: " + data);
-        database.collection('user-note')
-        .doc('note1')
-        .update({
-            noteContent: data
-        })
-       
-    }
-    function openHandle(){
-        console.log("open clicked");
         
-        CKEDITOR.instances.mytextarea.insertHtml(data);
-        
-    }
-            
+editor.on( 'change', function( evt ) {
+    // getData() returns CKEditor's HTML content.
+    //console.log( 'Total bytes: ' + evt.editor.getData() );
+    console.log("something typed");
+});
+function saveHandle(){
+    console.log("save clicked");
+    noteContent = CKEDITOR.instances.mytextarea.getData();
+    database.collection('user-note')
+    .doc('note1')
+    .update({
+        noteContent: noteContent
+    })
+    console.log("noteContent: " + noteContent);
+    
+}
+function openHandle(){
+    console.log("open clicked");
+
+    CKEDITOR.instances.mytextarea.setData('');
+   
+    
+
+    database.collection('user-note')
+    .doc('note1')
+    .get()
+    .then(function(doc) {
+        noteContent = doc.data().noteContent;
+        CKEDITOR.instances.mytextarea.insertHtml(noteContent);
+    })
+    
+    
+   }
 
 // Firestore
 
@@ -105,21 +112,22 @@ var data;
 //                 postName : "Welcome Again!"
 //             })
 // }
-// setPost(); vdgf3ak6fc
+// setPost();
 
-function getPosts() {
-    database.collection("user-note")
-              .get()
-              .then(snapshot => {
-                  snapshot.docs.forEach(docs => {
-                      console.log(docs.data());
-                  });
-              })
-              .catch(err => {
-                  console.log(err);
-              });
-}
-
+// function getPosts() {
+//   database
+//     .collection("user-note")
+//     .get()
+//     .then((snapshot) => {
+//       snapshot.docs.forEach((docs) => {
+//         console.log(docs.data());
+//       });
+//     })
+//     .catch((err) => {
+//       console.log(err);
+//     });
+// }
+// getPosts();
 
 // function deleteDoc(){
 //     database.collection("posts")
@@ -127,117 +135,215 @@ function getPosts() {
 // }
 // deleteDoc();
 
-
-$(document).ready(function(){
-    embed_video_url = window.localStorage.getItem('embedURL');
-
-    // SET NEW YOUTUBE VIDEO
-
-    $('#newVideoURLBtn').click(function(){
-        var newUrl  = $('#urlInput').val();
-        console.log(newUrl);
-        var isValidURL = embed_videoURL_generator(newUrl);
-        if(isValidURL){
+//OpenNote call
+function openNoteHandler(title){
+    CKEDITOR.instances.mytextarea.setData('');
+    tsList = [];
+    database.collection("user-note").where("title", "==", title)
+    .get()
+    .then(function(querySnapshot) {
+        querySnapshot.forEach(function(doc) {
+            // doc.data() is never undefined for query doc snapshots
+            console.log(doc.id, " => ", doc.data());
+            latestURL = doc.data().latestURL;
+            CKEDITOR.instances.mytextarea.insertHtml(doc.data().noteContent);
+            title = doc.data().title;
             player.loadVideoById({
-                videoId:videoId
-            });
-            
-            $('#newVideoURLBtn').prop('href', "main.html");
-            $('#cancel-btn').click();
-            
- 
-        } else {
-            alert("Enter a valid Youtube URL");
-        }
+                videoId: latestURL
+              });
+
+        });
+    })
+    .catch(function(error) {
+        console.log("Error getting documents: ", error);
     });
+    console.log("docs want!");
+    // var docs = database.collection('user-note').document('note1').collection('timestamps').data();
+    // console.log("docs: ", docs);
 
+    $("#cancel-opn").click();
 
-    // REFRESH NEW VIDEO URL INPUT BOX
+}
 
-    $('#watchNewVideo').click(function(){
-        $('#urlInput').val('');
-    });
+// TIMESTAMP VIDEO CALL
+function openVideoByTS(id, ts) {
+    
+  alert("got in");
+  player.loadVideoById({
+    videoId: id,
+    startSeconds: ts,
+  });
 
+  $("#cancel-ts").click();
+}
 
-    // TIMESTAMP SAVING
+$(document).ready(function () {
+  latestURL = window.localStorage.getItem("embedURL");
 
-    $('#saveTS').click(function(){
-        var tsTitleInput = $('#tsTitle').val();
-        if (tsTitleInput != undefined || tsTitleInput != '') {
-            var len = Object.keys(tsList).length;
-         
-            var key = len.toString().concat(tsTitleInput);
-            tsList[key] = $('#timeurl').val();
-            
-        }
-        var count = 0;
-        if ($('.modal-videoURLs').is(":empty")){
-            videoLists.map(videoURL => {
-                $('.modal-videoURLs').append(`
-                <div class="d-flex flex-row">
-                    <div class="p-4 align-self-start">
-                    <p><i class="fas fa-video"></i><br>URL</p>  
+  // SET NEW YOUTUBE VIDEO
+
+  $("#newVideoURLBtn").click(function () {
+    var newUrl = $("#urlInput").val();
+    console.log(newUrl);
+    var isValidURL = embed_videoURL_generator(newUrl);
+    if (isValidURL) {
+      player.loadVideoById({
+        videoId: videoId,
+      });
+
+      $("#newVideoURLBtn").prop("href", "main.html");
+      $("#cancel-btn").click();
+    } else {
+      alert("Enter a valid Youtube URL");
+    }
+  });
+
+  // REFRESH NEW VIDEO URL INPUT BOX
+
+  $("#watchNewVideo").click(function () {
+    $("#urlInput").val("");
+  });
+  //OPEN NOTE
+
+  var noteCount = 0;
+  $("#opennote").click(function () {
+      console.log("opennote");
+    // var tsTitleInput = $("#tsTitle").val();
+    // if (tsTitleInput != undefined || tsTitleInput != "") {
+    //   while (tsListCount != 0) {
+    //     $("#tsDiv").prev("#tsLists").remove();
+    //     tsListCount--;
+    //   }
+      // Add title, time and date in tempTs
+      while (noteCount != 0) {
+        $("#opnDiv").next("#notesLists").remove();
+        console.log("notecount", noteCount);
+        noteCount--;
+      }
+    database
+    .collection("user-note")
+    .get()
+    .then((snapshot) => {
+      snapshot.docs.forEach((docs) => {
+        console.log("doc",docs.data().title);
+        noteCount++;
+
+        $(`
+                <div id="notesLists" class="d-flex flex-row">
+                    <div class="pl-4 align-self-start">
+                        <a href = "#" onclick="openNoteHandler('${docs.data().title}');">
+                            <p>${docs.data().title}</p>
+                        </a>
                     </div>
-                    <a href="main.html"><div id="url${count}" class="VideoURL p-4 align-self-end">${videoURL}</div></a>
+                   
                 </div>
-                `);
-                count += 1;
-            });
-        }
-
+                `).insertAfter("#opnDiv");
+      });
+    })
+    .catch((err) => {
+      console.log(err);
     });
 
+ 
+  });
+  // TIMESTAMP SAVING
 
-    // EMBED VIDEOURL GENERATOR
+  var tsListCount = 0;
 
-    function embed_videoURL_generator(url){
-        if (url != undefined || url != '') {
-            var regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=|\?v=)([^#\&\?]*).*/;
-            var match = url.match(regExp);
-            if (match && match[2].length == 11) {
-                // Do anything for being valid
-                // if need to change the url to embed url then use below line
-                videoId = match[2];
-                embed_video_url = 'https://www.youtube.com/embed/' + match[2] + '?autoplay=0';
-                //$('#ytplayerSide').attr('src', 'https://www.youtube.com/embed/' + match[2] + '?autoplay=0');
-                return true;
-            }
-            else {
-                // Do anything for not being valid
-                return false;
-            }
-        }
+  $("#saveTS").click(function () {
+    var tsTitleInput = $("#tsTitle").val();
+    if (tsTitleInput != undefined || tsTitleInput != "") {
+      while (tsListCount != 0) {
+        $("#tsDiv").prev("#tsLists").remove();
+        tsListCount--;
+      }
+      // Add title, time and date in tempTs
+      tempTs.push(videoId);
+      tempTs.push(tsTitleInput);
+      tempTs.push(videotime);
+      tempTs.push(new Date());
+
+      // Add tempTs in tsList
+      tsList.push(tempTs);
+      console.log(tsList.length);
+      var id = "";
+      var stime = 0;
+      tsList.map((eachTS) => {
+        tsListCount++;
+        // id = eachTS[0];
+        // stime = eachTS[2];
+        $(`
+                <div id="tsLists" class="d-flex flex-row">
+                    <div class="pl-4 align-self-start">
+                        <a href = "#" onclick="openVideoByTS('${eachTS[0]}', '${eachTS[2]}');">
+                            <p>[${eachTS[2]}]</p>
+                        </a>
+                    </div>
+                    <div class="VideoURL pl-4 align-self-end">${eachTS[1]}</div>
+                </div>
+                `).insertBefore("#tsDiv");
+      });
+
+      // set tempTS list empty
+      tempTs = [];
+      //$('#cancel-ts').click();
     }
+    // var count = 0;
+    // if ($('.modal-videoURLs').is(":empty")){
+    //     videoLists.map(videoURL => {
+    //         $('.modal-videoURLs').append(`
+    //         <div class="d-flex flex-row">
+    //             <div class="p-4 align-self-start">
+    //             <p><i class="fas fa-video"></i><br>URL</p>
+    //             </div>
+    //             <a href="main.html"><div id="url${count}" class="VideoURL p-4 align-self-end">${videoURL}</div></a>
+    //         </div>
+    //         `);
+    //         count += 1;
+    //     });
+    // }
+  });
 
-    
-    function timestampFunction() {
-        var table= document.getElementById("timestampTable");
-        
-        if ("explanation" != ""){
-            var row = table.insertRow(1);
-            row.classname = "newtimestamp";
-            var c1 = row.insertCell(0);
-            var c2 = row.insertCell(1); 
-            
-            c2.innerHTML = document.getElementById("explanation").value;
-              
-            var player = document.getElementById('player');
-            var time = player.getCurrentTime();
+  // EMBED VIDEOURL GENERATOR
 
-            setTimeout(stopVideo, 6000);
-            if(player && player.getCurrentTime) {
-            videotime = player.getCurrentTime();
-
-            var prettytime= parseInt(videotime);
-            document.getElementById("timeurl").innerHTML = prettytime;
-          }
-        }
+  function embed_videoURL_generator(url) {
+    if (url != undefined || url != "") {
+      var regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=|\?v=)([^#\&\?]*).*/;
+      var match = url.match(regExp);
+      if (match && match[2].length == 11) {
+        // Do anything for being valid
+        // if need to change the url to embed url then use below line
+        videoId = match[2];
+        latestURL = "https://www.youtube.com/embed/" + match[2] + "?autoplay=0";
+        return true;
+      } else {
+        // Do anything for not being valid
+        return false;
+      }
     }
+  }
 
-    
+  function timestampFunction() {
+    var table = document.getElementById("timestampTable");
 
-    
+    if ("explanation" != "") {
+      var row = table.insertRow(1);
+      row.classname = "newtimestamp";
+      var c1 = row.insertCell(0);
+      var c2 = row.insertCell(1);
 
-    
+      c2.innerHTML = document.getElementById("explanation").value;
+
+      var player = document.getElementById("player");
+      var time = player.getCurrentTime();
+
+      setTimeout(stopVideo, 6000);
+      if (player && player.getCurrentTime) {
+        videotime = player.getCurrentTime();
+
+        var prettytime = parseInt(videotime);
+        document.getElementById("timeurl").innerHTML = prettytime;
+      }
+    }
+  }
 });
-

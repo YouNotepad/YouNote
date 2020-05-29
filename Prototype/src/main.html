@@ -27,7 +27,7 @@
                 <div class="collapse navbar-collapse" id="navbarCollapse">
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item">
-                            <a href="#home" class="nav-link" onclick="openHandle()"><i class="far fa-folder-open"></i> Open Note</a>
+                            <a href="#openNoteModal" id="opennote" data-toggle="modal" data-target="#openNoteModal" class="nav-link"><i class="far fa-folder-open"></i> Open Note</a>
                         </li>
                         <li class="nav-item">
                             <a href="#explore-head-section" class="nav-link" onclick="saveHandle()"><i class="far fa-save"></i> Save Note</a>
@@ -95,11 +95,34 @@
             </div>
         </div>
 
+        <!-- OpenNote modal-->
+        <div class="modal fade text-dark" id="openNoteModal">
+            <div class="modal-dialog modal-dialog-scrollable">
+                <div class="modal-content">
+                    <h1 class="display-8 text-center p-3"><strong>Open Note</strong></h1>
+                    
+                        <tr>
+                            <!-- <td><div class="ml-4" id = "timeurl" > time</div></td>
+                            <td><input type = "text" id = "explanation" size = "35"></td> -->
+                        </tr>
+                  
+                    <div class="modal-body">
+                        <div id="opnDiv"></div>
+                    </div>
+                    
+     
+                <div class="modal-footer">
+                    <a href="" id="cancel-opn" type="button" class="btn btn-secondary" data-dismiss="modal">Close</a>
+                </div>
+            </div>
+            </div>
+        </div>
+        
 
          <!-- TIMESTAMP MODAL-->
 
-        <div class="modal fade text-dark" id="timestampModal">
-            <div class="modal-dialog">
+         <div class="modal fade text-dark" id="timestampModal">
+            <div class="modal-dialog modal-dialog-scrollable">
                 <div class="modal-content">
                     <h1 class="display-8 text-center p-3"><strong>Time Stamp</strong></h1>
                     
@@ -110,20 +133,22 @@
                   
                     <div class="modal-body">
                         <form>
-                          <div class="form-group" id = "timestampTable">
-                            <label for="tsTitle" >Current Timestamp is <b>[<span id = "timeurl" >time</span>s]</b></label>
-                            <input type="text" class="form-control" id="tsTitle" placeholder="Timestamp description.                   e.g., hashTable">
-                          </div>
-                        </form>
+                            <div class="form-group" id = "timestampTable">
+                              <label for="tsTitle" >Current Timestamp is <b>[<span id = "timeurl" >time</span>s]</b></label>
+                              <input type="text" class="form-control" id="tsTitle" placeholder="Timestamp description.                   e.g., hashTable">
+                            </div>
+                          </form>
+
+                        <div id="tsDiv"></div>
                     </div>
-                  
+                    
+     
                 <div class="modal-footer">
                     <button type="button" class="btn btn-primary" id="saveTS" ">Save Timestamp</button>
-                    <a href="" id="cancel-btn" type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</a>
+                    <a href="" id="cancel-ts" type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</a>
                 </div>
             </div>
             </div>
-                
         </div>
    
 
