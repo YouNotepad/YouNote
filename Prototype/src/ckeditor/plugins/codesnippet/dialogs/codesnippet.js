@@ -71,7 +71,7 @@
 							inputStyle: 'cursor:auto;' +
 								'width:' + width + 'px;' +
 								'height:' + height + 'px;' +
-								'tab-size:4;' +
+								'tab-size: 4;' +
 								'text-align:left;',
 							'class': 'cke_source'
 						}

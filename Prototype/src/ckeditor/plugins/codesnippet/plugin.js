@@ -12,7 +12,7 @@
 ( function() {
 	CKEDITOR.plugins.add( 'codesnippet', {
 		requires: 'widget,dialog',
-		lang: 'ar,az,bg,ca,cs,da,de,de-ch,el,en,en-au,en-gb,eo,es,es-mx,et,eu,fa,fi,fr,fr-ca,gl,he,hr,hu,id,it,ja,km,ko,ku,lt,lv,nb,nl,no,oc,pl,pt,pt-br,ro,ru,sk,sl,sq,sr,sr-latn,sv,th,tr,tt,ug,uk,vi,zh,zh-cn', // %REMOVE_LINE_CORE%
+		lang: 'en,en-au,en-gb', // %REMOVE_LINE_CORE%
 		icons: 'codesnippet', // %REMOVE_LINE_CORE%
 		hidpi: true, // %REMOVE_LINE_CORE%
 
@@ -78,30 +78,27 @@
 				var hljsHighlighter = new CKEDITOR.plugins.codesnippet.highlighter( {
 					languages: {
 						apache: 'Apache',
-						bash: 'Bash',
-						coffeescript: 'CoffeeScript',
+						
 						cpp: 'C++',
 						cs: 'C#',
 						css: 'CSS',
-						diff: 'Diff',
+						
 						html: 'HTML',
 						http: 'HTTP',
-						ini: 'INI',
+						
 						java: 'Java',
 						javascript: 'JavaScript',
 						json: 'JSON',
-						makefile: 'Makefile',
+						
 						markdown: 'Markdown',
-						nginx: 'Nginx',
+						
 						objectivec: 'Objective-C',
 						perl: 'Perl',
 						php: 'PHP',
 						python: 'Python',
 						ruby: 'Ruby',
 						sql: 'SQL',
-						vbscript: 'VBScript',
-						xhtml: 'XHTML',
-						xml: 'XML'
+						
 					},
 
 					init: function( callback ) {
@@ -293,6 +290,8 @@
 			textarea = new CKEDITOR.dom.element( 'textarea' ),
 			lang = editor.lang.codesnippet;
 
+			
+
 		editor.widgets.add( 'codeSnippet', {
 			allowedContent: 'pre; code(language-*)',
 			// Actually we need both - pre and code, but ACF does not make it possible
@@ -483,4 +482,4 @@ CKEDITOR.config.codeSnippet_codeClass = 'hljs';
  * @cfg {String} [codeSnippet_theme='default']
  * @member CKEDITOR.config
  */
-CKEDITOR.config.codeSnippet_theme = 'default';
+CKEDITOR.config.codeSnippet_theme = 'pojoaque';

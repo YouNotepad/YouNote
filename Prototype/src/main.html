@@ -26,10 +26,10 @@
                 <div class="collapse navbar-collapse" id="navbarCollapse">
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item">
-                            <a href="#home" class="nav-link"><i class="far fa-folder-open"></i> Open Note</a>
+                            <a href="#home" class="nav-link" onclick="openHandle()"><i class="far fa-folder-open"></i> Open Note</a>
                         </li>
                         <li class="nav-item">
-                            <a href="#explore-head-section" class="nav-link"><i class="far fa-save"></i> Save Note</a>
+                            <a href="#explore-head-section" class="nav-link" onclick="saveHandle()"><i class="far fa-save"></i> Save Note</a>
                         </li>
                         <li class="nav-item">
                             <a href="#watchNewVideoModal" id="watchNewVideo" data-toggle="modal" data-target="#watchNewVideoModal" class="nav-link"> <i class="fas fa-video"></i> Watch New Video</a>
@@ -72,31 +72,43 @@
                       <textarea class="cell b" id="mytextarea" name="mytextarea">
                         
                       </textarea>
-                        <script>
-                            
-                            CKEDITOR.replace( 'mytextarea' ), {    
-                            //    codeSnippetGeshi_url: '../lib/colorize.php',
-                            };
-                          
-                            CKEDITOR.config.height = '80vh';
+                      <script src="./ckeditor/ckeditor.js"></script>
+                      <textarea id="mytextarea" name="mytextarea">
+                        
+                      </textarea>
+                      <script>
+                          var data;
+                        var editor = CKEDITOR.replace( 'mytextarea' );
+                        CKEDITOR.config.tabSpaces = 4;
+                        CKEDITOR.config.height = '80vh';
+                        CKEDITOR.config.removePlugins = 'specialchar';
 
-
-                            CKEDITOR.config.extraPlugins = 'codesnippet';
-                            //CKEDITOR.config.extraPlugins = 'ajax';
-                            //CKEDITOR.config.extraPlugins = 'xml';
-                            //CKEDITOR.config.extraPlugins = 'codesnippetgeshi';
-                            //CKEDITOR.config.codeSnippet_theme = 'pojoaque';
-                            CKEDITOR.config.codeSnippet_languages = {
-                                    javascript: 'JavaScript',
-                                    java: 'Java',
-                                    c: 'C',
-                                    html: 'HTML',
-                                    html5: 'HTML5',
-                                    mysql: 'MySQL',
-                                    python: 'PYTHON',
-                                    php: 'PHP'
-                                };
-                            CKEDITOR.config.removePlugins = 'source';
+                        CKEDITOR.config.extraPlugins = 'codesnippet';
+                        
+                        
+                
+                editor.on( 'change', function( evt ) {
+                    // getData() returns CKEditor's HTML content.
+                    //console.log( 'Total bytes: ' + evt.editor.getData() );
+                    console.log("something typed");
+                });
+                function saveHandle(){
+                    console.log("save clicked");
+                    data = CKEDITOR.instances.mytextarea.getData();
+                   
+                    console.log("data: " + data);
+                }
+                function openHandle(){
+                    console.log("open clicked");
+                    
+                    CKEDITOR.instances.mytextarea.insertHtml(data);
+                    
+                }
+                        
+                        
+                       
+                      
+                        
                 </script>
              
                 
