@@ -139,6 +139,7 @@ $(document).ready(function(){
         var newUrl  = $('#urlInput').val();
         console.log(newUrl);
         var isValidURL = embed_videoURL_generator(newUrl);
+        
         if(isValidURL){
             player.loadVideoById({
                 videoId:videoId
