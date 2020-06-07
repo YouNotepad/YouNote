@@ -150,6 +150,7 @@ function openNoteHandler(title) {
         CKEDITOR.instances.mytextarea.insertHtml(doc.data().noteContent);
         title = doc.data().title;
         videoTitle = doc.data().title;
+        videoId = doc.data().latestURL;
         console.log("VideoTitle is");
         console.log(videoTitle);
         player.loadVideoById({
