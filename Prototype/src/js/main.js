@@ -203,7 +203,7 @@ function openNoteHandler(title) {
       });
     });
 
-  console.log("docs: ", docs);
+
 
   $("#cancel-opn").click();
 }
