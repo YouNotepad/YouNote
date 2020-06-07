@@ -211,7 +211,7 @@ function openNoteHandler(title) {
 
 // TIMESTAMP VIDEO CALL
 function openVideoByTS(id, ts) {
-  alert("got in");
+    videoId = id;
   player.loadVideoById({
     videoId: id,
     startSeconds: ts,
