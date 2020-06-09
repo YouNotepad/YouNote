@@ -149,7 +149,9 @@ function openNoteHandler(title) {
         latestURL = doc.data().latestURL;
         CKEDITOR.instances.mytextarea.insertHtml(doc.data().noteContent);
         title = doc.data().title;
+
         videoTitle = doc.data().title;
+        $("#noteTitle").text(videoTitle);
         videoId = doc.data().latestURL;
         console.log("VideoTitle is");
         console.log(videoTitle);
@@ -161,6 +163,9 @@ function openNoteHandler(title) {
     .catch(function (error) {
       console.log("Error getting documents: ", error);
     });
+
+    // navbar note title update
+   
   console.log("docs want!");
   database
     .collection("user-note")
@@ -392,8 +397,12 @@ $(document).ready(function () {
 // CREATE NEW NOTE
 
 $("#newNoteBtn").click(function () {
+  var empty = "";
+  $("#noteTitle").html(empty);
   // clear note section
   CKEDITOR.instances.mytextarea.setData("");
+  // clear note title
+  
   // make timestamp list empty
   tsList = [];
   while (tsListCount != 0) {
@@ -422,6 +431,8 @@ $("#saveNoteBtn").click(function () {
 
   var title = $("#saveNoteInput").val();
   videoTitle = title;
+  // navbar Note Title update
+  $("#noteTitle").html(title);
   database.collection("user-note").doc(title).set({
     title: title,
     noteContent: CKEDITOR.instances.mytextarea.getData(),
@@ -458,6 +469,7 @@ $("#saveNote").click(function () {
   } else {
     // Save Note Action without  title
 
+    
     database.collection("user-note").doc(videoTitle).update({
       noteContent: CKEDITOR.instances.mytextarea.getData(),
       latestURL: videoId,
@@ -478,7 +490,10 @@ $("#saveNote").click(function () {
         .catch((err) => {
           console.log(err);
         });
+
     });
+
+   
   }
 });
 
